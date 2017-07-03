@@ -49,6 +49,32 @@ class DepartamentosFinder extends MY_Model {
         ->select( 'CodDepartamento as Código, b.Nome as Nome,  b.Cor as Cor, CodDepartamento as Ações' );
         return $this;
     }
+
+    public function filtro() {
+
+        // prepara os dados
+        $this->db->from( $this->table )
+        ->select( 'CodDepartamento as Valor, Nome as Label' );
+
+        // faz a busca
+        $busca = $this->db->get();
+
+        // verifica se existe resultados
+        if ( $busca->num_rows() > 0 ) {
+
+            // seta o array de retorna
+            $ret = [];
+
+            // percorre todos os dados
+            foreach( $busca->result_array() as $item ) {
+                $ret[$item['Valor']] = $item['Label'];
+            }
+
+            // retorna os dados
+            return $ret;
+
+        } else return [];
+    }
 }
 
 /* end of file */

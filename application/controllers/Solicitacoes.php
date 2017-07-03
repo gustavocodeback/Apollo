@@ -55,11 +55,14 @@ class Solicitacoes extends MY_Controller {
     */
 	public function index() {
 
+        // pega as departamentos
+        $departamentos = $this->DepartamentosFinder->filtro();
+
         // faz a paginacao
 		$this->SolicitacoesFinder->grid()
 
 		// seta os filtros
-        ->addFilter( 'nome', 'text' )
+        ->addFilter( 'CodDepartamento', 'select', $departamentos, 'd' )
 		->filter()
 		->order()
 		->paginate( 0, 20 )
