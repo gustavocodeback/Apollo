@@ -2,7 +2,7 @@
 
 class Empresa extends MY_Model {
 
-    // id da rotina
+    // id da empresa
     public $CodEmpresa;
 
     // razao

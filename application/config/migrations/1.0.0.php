@@ -129,6 +129,68 @@ $config['schema']['Bancos'] = [
     ]
 ];
 
+$config['schema']['Departamentos'] = [
+    'CodDepartamento' => [
+        'type'           => 'int',
+        'primary_key'    => TRUE,
+        'constraint'     => '11',
+        'auto_increment' => true
+    ],
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
+    'Cor' => [
+        'type'       => 'varchar',
+        'constraint' => '20'
+    ]
+];
+
+$config['schema']['TiposDocumentos'] = [
+    'CodTipoDocumento' => [
+        'type'           => 'int',
+        'primary_key'    => TRUE,
+        'constraint'     => '11',
+        'auto_increment' => true
+    ],
+    'Categoria' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
+    'Descricao' => [
+        'type'           => 'varchar',
+        'constraint'     => '120',
+    ],
+    'Origem' => [
+        'type'           => 'varchar',
+        'constraint'     => '20',
+    ],
+    'Pagamento' => [
+        'type'           => 'char',
+        'constraint'     => '1',
+    ],
+    'Icone' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ]
+];
+
+$config['schema']['Solicitacoes'] = [
+    'CodSolicitacao' => [
+        'type'           => 'int',
+        'primary_key'    => TRUE,
+        'constraint'     => '11',
+        'auto_increment' => true
+    ],
+    'CodDepartamento' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+    ],
+    'Descricao' => [
+        'type'       => 'varchar',
+        'constraint' => '120'
+    ]
+];
 
 
 /* end of file */

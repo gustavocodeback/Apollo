@@ -1,17 +1,17 @@
 <?php
 
-require 'application/models/Banco.php';
+require 'application/models/Departamento.php';
 
-class BancosFinder extends MY_Model {
+class DepartamentosFinder extends MY_Model {
 
     // entidade
-    public $entity = 'Banco';
+    public $entity = 'Departamento';
 
     // tabela
-    public $table = 'Bancos';
+    public $table = 'Departamentos';
 
     // chave primaria
-    public $primaryKey = 'CodBanco';
+    public $primaryKey = 'CodDepartamento';
 
     // labels
     public $labels = [
@@ -29,12 +29,12 @@ class BancosFinder extends MY_Model {
     }
 
    /**
-    * getBanco
+    * getCidade
     *
-    * pega a instancia do banco
+    * pega a instancia do cidade
     *
     */
-    public function getBanco() {
+    public function getDepartamento() {
         return new $this->entity();
     }
 
@@ -46,7 +46,7 @@ class BancosFinder extends MY_Model {
     */
     public function grid() {
         $this->db->from( $this->table.' b' )
-        ->select( 'CodBanco as Código, b.Nome as Nome, CodBanco as Ações' );
+        ->select( 'CodDepartamento as Código, b.Nome as Nome,  b.Cor as Cor, CodDepartamento as Ações' );
         return $this;
     }
 }
