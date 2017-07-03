@@ -58,6 +58,38 @@ class EmpresasFinder extends MY_Model {
         ->join( 'Estados s', 's.CodEstado = e.CodEstado' );
         return $this;
     }
+
+   /**
+    * filtro
+    *
+    * busca as empresas para serem usadas no filtro
+    *
+    */
+    public function filtro() {
+
+        // prepara os dados
+        $this->db->from( $this->table )
+        ->select( 'CodEmpresa as Valor, RazaoSocial as Label' );
+
+        // faz a busca
+        $busca = $this->db->get();
+
+        // verifica se existe resultados
+        if ( $busca->num_rows() > 0 ) {
+
+            // seta o array de retorna
+            $ret = [];
+
+            // percorre todos os dados
+            foreach( $busca->result_array() as $item ) {
+                $ret[$item['Valor']] = $item['Label'];
+            }
+
+            // retorna os dados
+            return $ret;
+
+        } else return [];
+    }
 }
 
 /* end of file */

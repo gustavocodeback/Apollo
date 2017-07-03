@@ -191,6 +191,11 @@ class Usuarios extends MY_Controller {
                 // carrega a view de adicionar
                 $this->view->setTitle( 'Conta Ágil - Adicionar usuario' )->render( 'forms/usuario' );
                 return;
+            } else {
+                
+                // redireciona para a index
+                redirect( site_url( 'usuarios/index' ) );
+                return;
             }
         }
 
