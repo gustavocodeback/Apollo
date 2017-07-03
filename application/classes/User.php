@@ -156,6 +156,23 @@ class User {
     }
 
    /**
+    * pushOnGroup
+    *
+    * coloca o usuario em um grupo
+    *
+    * @param {string} $gid
+    */
+    public function pushOnGroup( $gid ) {
+
+        // seta os dados
+        $dados = [ 'gid' => $gid ];
+
+        // faz o update
+        return $this->db->where( [ 'uid' => $this->data['uid'] ] )
+        ->update( $this->config->item( 'users' )['table'], $dados );
+    }
+
+   /**
     * createUser
     *
     * cria um novo usuario 
@@ -163,7 +180,7 @@ class User {
     * @param {string} $email
     * @param {string} $password
     */
-    public function createUser( $email, $password ) {
+    public function createUser( $email, $password, $gid = false ) {
 
         // prepara os dados
         $emailAlias = $this->getField( 'users', 'email' );
@@ -174,8 +191,51 @@ class User {
             $passwordAlias => $this->generate_hash( $password )
         ];
 
+        // verifica se existe um id do grupo
+        if ( $gid ) $data['gid'] = $gid;
+
         // salva os dados
         if ( $this->db->insert( $this->config->item( 'users' )['table'], $data ) ) {
+            return $this;
+        } else return false;
+    }
+
+   /**
+    * updateUser
+    *
+    * altera os dados do usuario 
+    *
+    * @param {Usuario} $user
+    */
+    public function updateUser( $user ) {
+
+        // verifica se o usuario foi carregado
+        if ( !$this->isLoaded() ) return false;
+
+        // pega os campos
+        $emailAlias = $this->getField( 'users', 'email' );
+        $passwordAlias = $this->getField( 'users', 'password' );
+
+        // verifica se as senhas sao iguais
+        if ( $this->data[$passwordAlias] != $user->senha ) {
+            $user->senha = $this->generate_hash( $user->senha );
+        }
+
+        // prepara os dados
+        $data = [
+            $this->getField( 'users', 'uid' ) => md5( uniqid( rand() * time() ) ),
+            $emailAlias    => $user->email,
+            $passwordAlias => $user->senha
+        ];
+
+        // verifica se existe um id do grupo
+        if ( $user->gid ) $data['gid'] = $user->gid;
+
+        // seta o where
+        $this->db->where( [ 'uid' => $user->uid ]);
+
+        // salva os dados
+        if ( $this->db->update( $this->config->item( 'users' )['table'], $data ) ) {
             return $this;
         } else return false;
     }
@@ -213,15 +273,5 @@ class User {
 
         // faz o update
         return $this->db->update( $this->config->item( 'users' )['table'], $data );
-    }
-
-    public function pushOnGroup( $gid ) {
-
-        // seta os dados
-        $dados = [ 'gid' => $gid ];
-
-        // faz o update
-        return $this->db->where( [ 'uid' => $this->data['uid'] ] )
-        ->update( $this->config->item( 'users' )['table'], $dados );
     }
 }

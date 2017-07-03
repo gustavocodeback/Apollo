@@ -1,28 +1,28 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<?php $contador = $view->item( 'contador' ); ?>
+<?php $colaborador = $view->item( 'colaborador' ); ?>
 <?php $view->component( 'aside' ); ?>
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'contadores/salvar', [ 'class' => 'card container' ] )?>
+    <?php echo form_open( 'colaboradores/salvar', [ 'class' => 'card container' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
-            <h2>Novo contador</h2>
+            <h2>Novo colaborador</h2>
         </div>
-        <?php if( $contador ): ?>
-        <input type="hidden" name="cod" value="<?php echo $contador->CodContador; ?>">
+        <?php if( $colaborador ): ?>
+        <input type="hidden" name="cod" value="<?php echo $colaborador->CodColaborador; ?>">
         <?php endif; ?><!-- id -->
 
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="rotina">Cargo</label>
-                    <select name="grupo" class="form-control">
+                    <label for="uid">Usuário</label>
+                    <select name="uid" class="form-control">
                         <option value="">-- Selecione --</option>
-                        <?php foreach( $view->item( 'grupos' ) as $item ): ?>
-                        <option value="<?php echo $item->gid?>" 
-                                <?php echo $contador && $contador->gid == $item->gid ? 'selected="selected"' : ''; ?>>
-                        <?php echo $item->grupo; ?></option>
+                        <?php foreach( $view->item( 'usuarios' ) as $item ): ?>
+                        <option value="<?php echo $item->uid?>" 
+                                <?php echo $colaborador && $colaborador->uid == $item->uid ? 'selected="selected"' : ''; ?>>
+                        <?php echo $item->email; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -38,7 +38,7 @@
                             id="nome" 
                             name="nome" 
                             required
-                            value="<?php echo $contador ? $contador->nome : ''; ?>"
+                            value="<?php echo $colaborador ? $colaborador->nome : ''; ?>"
                             placeholder="Carlos Contador">
                 </div>
             </div>
@@ -47,39 +47,25 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input  type="email" 
+                    <label for="cpf">CPF</label>
+                    <input  type="text" 
                             class="form-control" 
-                            id="email" 
-                            name="email" 
+                            id="cpf" 
+                            name="cpf" 
                             required
-                            value="<?php echo $contador ? $contador->email : ''; ?>"
-                            placeholder="contador@email.com">
+                            value="<?php echo $colaborador ? $colaborador->cpf : ''; ?>"
+                            placeholder="999.999.999-99">
                 </div>
             </div>
-        </div><!-- input do email -->
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="senha">Senha</label>
-                    <input  type="password" 
-                            class="form-control" 
-                            id="senha" 
-                            name="senha" 
-                            required
-                            placeholder="******">
-                </div>
-            </div>
-        </div><!-- input da senha -->
+        </div><!-- input do cpf -->
 
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="rotina">Status</label>
                     <select name="status" class="form-control">
-                        <option value="A" <?php echo $contador && $contador->status == 'A' ? 'selected="selected"' : '';?>>Ativo</option>
-                        <option value="B" <?php echo $contador && $contador->status == 'A' ? 'selected="selected"' : '';?>>Bloqueado</option>
+                        <option value="A" <?php echo $colaborador && $colaborador->status == 'A' ? 'selected="selected"' : '';?>>Ativo</option>
+                        <option value="B" <?php echo $colaborador && $colaborador->status == 'B' ? 'selected="selected"' : '';?>>Bloqueado</option>
                     </select>
                 </div>
             </div>

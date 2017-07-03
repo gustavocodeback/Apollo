@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Contador extends MY_Model {
+class Colaborador extends MY_Model {
 
     // id da rotina
-    public $CodContador;
+    public $CodColaborador;
 
     // nome
     public $nome;
@@ -11,26 +11,20 @@ class Contador extends MY_Model {
     // id do usuario
     public $uid;
 
-    // email
-    public $email;
-
-    // grupo
-    public $grupo;
-
-    // id do grupo
-    public $gid;
-
     // status
     public $status;
 
+    // cpf
+    public $cpf;
+
     // entidade
-    public $entity = 'Contador';
+    public $entity = 'Colaborador';
     
     // tabela
-    public $table = 'Contadores';
+    public $table = 'Colaboradores';
 
     // chave primaria
-    public $primaryKey = 'CodContador';
+    public $primaryKey = 'CodColaborador';
 
    /**
     * __construct
@@ -69,17 +63,27 @@ class Contador extends MY_Model {
     *
     */
     public function setCod( $cod ) {
-        $this->CodContador = $cod;
+        $this->CodColaborador = $cod;
     }
 
    /**
-    * uid
+    * setUid
     *
     * seta o uid
     *
     */
     public function setUid( $uid ) {
         $this->uid = $uid;
+    }
+
+   /**
+    * setCpf
+    *
+    * seta o cpf
+    *
+    */
+    public function setCpf( $cpf ) {
+        $this->cpf = $cpf;
     }
 }
 
