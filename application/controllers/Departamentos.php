@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Bancos extends MY_Controller {
+class Departamentos extends MY_Controller {
 
     // indica se o controller é publico
 	protected $public = false;
@@ -15,7 +15,7 @@ class Bancos extends MY_Controller {
         parent::__construct();
         
         // carrega o finder
-        $this->load->finder( [ 'BancosFinder' ] );
+        $this->load->finder( [ 'DepartamentosFinder' ] );
         
         // chama o modulo
         $this->view->module( 'navbar' )->module( 'aside' );
@@ -27,7 +27,7 @@ class Bancos extends MY_Controller {
     * valida o formulario de estados
     *
     */
-    private function _formularioBanco() {
+    private function _formularioDepartamento() {
 
         // seta as regras
         $rules = [
@@ -35,6 +35,10 @@ class Bancos extends MY_Controller {
                 'field' => 'nome',
                 'label' => 'Nome',
                 'rules' => 'required|min_length[3]|max_length[32]|trim'
+            ], [
+                'field' => 'cor',
+                'label' => 'Cor',
+                'rules' => 'required'
             ]
         ];
 
@@ -52,7 +56,7 @@ class Bancos extends MY_Controller {
 	public function index() {
 
         // faz a paginacao
-		$this->BancosFinder->grid()
+		$this->DepartamentosFinder->grid()
 
 		// seta os filtros
         ->addFilter( 'Nome', 'text' )
@@ -62,18 +66,21 @@ class Bancos extends MY_Controller {
 
 		// seta as funcoes nas colunas
 		->onApply( 'Ações', function( $row, $key ) {
-			echo '<a href="'.site_url( 'bancos/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
-			echo '<a href="'.site_url( 'bancos/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
+			echo '<a href="'.site_url( 'departamentos/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
+			echo '<a href="'.site_url( 'departamentos/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
+		})
+        ->onApply( 'Cor', function( $row, $key ) {
+			echo '<span style="display: inline-block; height: 20px; width: 20px; background:'.$row['Cor'].'"></span>';           
 		})
 
 		// renderiza o grid
-		->render( site_url( 'bancos/index' ) );
+		->render( site_url( 'departamentos/index' ) );
 		
         // seta a url para adiciona
-        $this->view->set( 'add_url', site_url( 'bancos/adicionar' ) );
+        $this->view->set( 'add_url', site_url( 'departamentos/adicionar' ) );
 
 		// seta o titulo da pagina
-		$this->view->setTitle( 'Bancos - listagem' )->render( 'grid' );
+		$this->view->setTitle( 'Departamentos - listagem' )->render( 'grid' );
     }
 
    /**
@@ -85,7 +92,7 @@ class Bancos extends MY_Controller {
     public function adicionar() {
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar banco' )->render( 'forms/banco' );
+        $this->view->setTitle( 'Conta Ágil - Adicionar departamento' )->render( 'forms/departamento' );
     }
 
    /**
@@ -97,19 +104,19 @@ class Bancos extends MY_Controller {
     public function alterar( $key ) {
 
         // carrega o cargo
-        $banco = $this->BancosFinder->key( $key )->get( true );
+        $departamento = $this->DepartamentosFinder->key( $key )->get( true );
 
         // verifica se o mesmo existe
-        if ( !$banco ) {
-            redirect( 'bancos/index' );
+        if ( !$departamento ) {
+            redirect( 'departamentos/index' );
             exit();
         }
 
         // salva na view
-        $this->view->set( 'banco', $banco );
+        $this->view->set( 'departamento', $departamento );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Alterar banco' )->render( 'forms/banco' );
+        $this->view->setTitle( 'Conta Ágil - Alterar departamento' )->render( 'forms/departamento' );
     }
 
    /**
@@ -119,9 +126,9 @@ class Bancos extends MY_Controller {
     *
     */
     public function excluir( $key ) {
-        $banco = $this->BancosFinder->getBanco();
-        $banco->setCod( $key );
-        $banco->delete();
+        $departamento = $this->DepartamentosFinder->getDepartamento();
+        $departamento->setCod( $key );
+        $departamento->delete();
         $this->index();
     }
 
@@ -134,25 +141,26 @@ class Bancos extends MY_Controller {
     public function salvar() {
 
         // instancia um novo objeto grupo
-        $banco = $this->BancosFinder->getBanco();
-        $banco->setNome( $this->input->post( 'nome' ) );
-        $banco->setCod( $this->input->post( 'cod' ) );
+        $departamento = $this->DepartamentosFinder->getDepartamento();
+        $departamento->setNome( $this->input->post( 'nome' ) );
+        $departamento->setCor( $this->input->post( 'cor' ) );
+        $departamento->setCod( $this->input->post( 'cod' ) );
 
         // verifica se o formulario é valido
-        if ( !$this->_formularioBanco() ) {
+        if ( !$this->_formularioDepartamento() ) {
 
             // seta os erros de validacao            
-            $this->view->set( 'banco', $banco );
+            $this->view->set( 'departamento', $departamento );
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar banco' )->render( 'forms/banco' );
+            $this->view->setTitle( 'Conta Ágil - Adicionar departamento' )->render( 'forms/departamento' );
             return;
         }
 
         // verifica se o dado foi salvo
-        if ( $banco->save() ) {
-            redirect( site_url( 'bancos/index' ) );
+        if ( $departamento->save() ) {
+            redirect( site_url( 'departamentos/index' ) );
         }
     }
 }

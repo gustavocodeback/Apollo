@@ -29,9 +29,9 @@ class BancosFinder extends MY_Model {
     }
 
    /**
-    * getCidade
+    * getBanco
     *
-    * pega a instancia do cidade
+    * pega a instancia do banco
     *
     */
     public function getBanco() {

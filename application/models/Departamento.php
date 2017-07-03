@@ -1,24 +1,24 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cidade extends MY_Model {
+class Departamento extends MY_Model {
 
-    // id da cidade
-    public $CodCidade;
-
-    // estado
-    public $estado;
+    // id do Departamento
+    public $CodDepartamento;
 
     // nome
     public $nome;
 
+    // cor
+    public $cor;
+
     // entidade
-    public $entity = 'Cidade';
+    public $entity = 'Departamento';
     
     // tabela
-    public $table = 'Cidades';
+    public $table = 'Departamentos';
 
     // chave primaria
-    public $primaryKey = 'CodCidade';
+    public $primaryKey = 'CodDepartamento';
 
    /**
     * __construct
@@ -31,7 +31,7 @@ class Cidade extends MY_Model {
     }
     
     public function setCod( $cod ) {
-        $this->CodCidade = $cod;
+        $this->CodDepartamento = $cod;
     }
 
     // nome
@@ -39,9 +39,9 @@ class Cidade extends MY_Model {
         $this->nome = $nome;
     }
 
-    // uf
-    public function setEstado( $estado ) {
-        $this->estado = $estado;
+    // cor
+    public function setCor( $cor ) {
+        $this->cor = $cor;
     }
 }
 

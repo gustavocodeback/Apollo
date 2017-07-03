@@ -2,7 +2,7 @@
 
 class Classificacao extends MY_Model {
 
-    // id da rotina
+    // id da classificacao
     public $CodClassificacao;
 
     // nome

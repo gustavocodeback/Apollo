@@ -49,6 +49,11 @@ $config['Cidade'] = [
     'estado' => 'CodEstado',
 ];
 
+$config['Solicitacao'] = [
+    'descricao'   => 'Descricao',
+    'departamento' => 'CodDepartamento',
+];
+
 $config['Banco'] = [
     'nome'   => 'Nome',
 ];
@@ -56,6 +61,11 @@ $config['Banco'] = [
 $config['Carteira'] = [
     'nome' => 'Nome',
     'colaborador' => 'CodColaborador',
+];
+
+$config['Departamento'] = [
+    'nome'   => 'Nome',
+    'cor'    => 'Cor'
 ];
 
 $config['Empresa'] = [
@@ -66,6 +76,14 @@ $config['Empresa'] = [
     'cep'           => 'Cep',
     'cidade'        => 'CodCidade',
     'estado'        => 'CodEstado'
+];
+
+$config['TipoDocumento'] = [
+    'categoria'         => 'Categoria',
+    'descricao'          => 'Descricao',
+    'origem'      => 'Origem',
+    'pagamento'   => 'Pagamento',
+    'icone'           => 'Icone'
 ];
 
 $config['Usuario'] = [
