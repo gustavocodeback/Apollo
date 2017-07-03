@@ -3,42 +3,156 @@
 class Bancos extends MY_Controller {
 
     // indica se o controller é publico
-	protected $public = true;
+	protected $public = false;
+
+   /**
+    * __construct
+    *
+    * metodo construtor
+    *
+    */
+    public function __construct() {
+        parent::__construct();
+        
+        // carrega o finder
+        $this->load->finder( [ 'BancosFinder' ] );
+        
+        // chama o modulo
+        $this->view->module( 'navbar' )->module( 'aside' );
+    }
+
+   /**
+    * _formularioEstados
+    *
+    * valida o formulario de estados
+    *
+    */
+    private function _formularioBanco() {
+
+        // seta as regras
+        $rules = [
+            [
+                'field' => 'nome',
+                'label' => 'Nome',
+                'rules' => 'required|min_length[3]|max_length[32]|trim'
+            ]
+        ];
+
+        // valida o formulário
+        $this->form_validation->set_rules( $rules );
+        return $this->form_validation->run();
+    }
 
    /**
     * index
     *
-    * mostra o formulario de login
+    * mostra o grid de contadores
     *
     */
 	public function index() {
-        
-        // renderiza a view de login
-        $this->view->setTitle( 'Conta Ágil - Login' )->render( 'login' );
+
+        // faz a paginacao
+		$this->BancosFinder->grid()
+
+		// seta os filtros
+        ->addFilter( 'Nome', 'text' )
+		->filter()
+		->order()
+		->paginate( 0, 20 )
+
+		// seta as funcoes nas colunas
+		->onApply( 'Ações', function( $row, $key ) {
+			echo '<a href="'.site_url( 'bancos/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
+			echo '<a href="'.site_url( 'bancos/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
+		})
+
+		// renderiza o grid
+		->render( site_url( 'bancos/index' ) );
+		
+        // seta a url para adiciona
+        $this->view->set( 'add_url', site_url( 'bancos/adicionar' ) );
+
+		// seta o titulo da pagina
+		$this->view->setTitle( 'Bancos - listagem' )->render( 'grid' );
     }
 
    /**
-    * logar
+    * adicionar
     *
-    * faz o login
+    * mostra o formulario de adicao
     *
     */
-    public function logar() {
+    public function adicionar() {
 
-        // pega o email e a senha
-        $email = $this->input->post( 'email' );
-        $senha = $this->input->post( 'senha' );
+        // carrega a view de adicionar
+        $this->view->setTitle( 'Conta Ágil - Adicionar banco' )->render( 'forms/banco' );
+    }
 
-        // tenta fazer o login
-        if( !$this->guard->loginWithEmailAndPassword( $email, $senha ) ) {
+   /**
+    * alterar
+    *
+    * mostra o formulario de edicao
+    *
+    */
+    public function alterar( $key ) {
 
-            // seta o erro
-            $erro = $this->guard->cause()['message'];
-            $this->view->set( 'error', $erro );
+        // carrega o cargo
+        $banco = $this->BancosFinder->key( $key )->get( true );
 
-            // chama o index
-            $this->index();
-            return false;
+        // verifica se o mesmo existe
+        if ( !$banco ) {
+            redirect( 'bancos/index' );
+            exit();
+        }
+
+        // salva na view
+        $this->view->set( 'banco', $banco );
+
+        // carrega a view de adicionar
+        $this->view->setTitle( 'Conta Ágil - Alterar banco' )->render( 'forms/banco' );
+    }
+
+   /**
+    * excluir
+    *
+    * exclui um item
+    *
+    */
+    public function excluir( $key ) {
+        $banco = $this->BancosFinder->getBanco();
+        $banco->setCod( $key );
+        $banco->delete();
+        $this->index();
+    }
+
+   /**
+    * salvar
+    *
+    * salva os dados
+    *
+    */
+    public function salvar() {
+
+        // instancia um novo objeto grupo
+        $cidade = $this->BancosFinder->getBanco();
+        $cidade->setNome( $this->input->post( 'nome' ) );
+        $cidade->setCod( $this->input->post( 'cod' ) );
+
+        // verifica se o formulario é valido
+        if ( !$this->_formularioBanco() ) {
+
+            // seta os erros de validacao            
+            $this->view->set( 'banco', $banco );
+            $this->view->set( 'errors', validation_errors() );
+            
+            // carrega a view de adicionar
+            $this->view->setTitle( 'Conta Ágil - Adicionar banco' )->render( 'forms/banco' );
+            return;
+        }
+
+        // verifica se o dado foi salvo
+        if ( $cidade->save() ) {
+            redirect( site_url( 'bancos/index' ) );
         }
     }
 }

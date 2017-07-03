@@ -5,23 +5,26 @@ class Empresa extends MY_Model {
     // id da rotina
     public $CodEmpresa;
 
-    // nome
-    public $nome;
-
-    // email
+    // razao
     public $razao;
 
-    // grupo
+    // cnpj
     public $cnpj;
 
-    // status
+    // endereco
+    public $endereco;
+
+    // numero endereco
+    public $numendereco;
+
+    // cep
+    public $cep;
+
+    // cidade
     public $cidade;
 
     // estado
     public $estado;
-
-    // logradouro
-    public $logradouro;
 
     // entidade
     public $entity = 'Empresa';
@@ -46,39 +49,39 @@ class Empresa extends MY_Model {
         $this->CodEmpresa = $cod;
     }
 
-    // nome
-    public function setNome( $nome ) {
-        $this->nome = $nome;
-    }
-
-    // email
+    // seta a razao
     public function setRazao( $razao ) {
         $this->razao = $razao;
     }
 
-    // grupo
+    // seta o cnpj
     public function setCnpj( $cnpj ) {
         $this->cnpj = $cnpj;
     }
 
-    // id do grupo
+    // seta o cep
+    public function setCep( $cep ) {
+        $this->cep = $cep;
+    }
+
+    // seta o endereco
     public function setEndereco( $endereco ) {
         $this->endereco = $endereco;
     }
 
-    // status
+    // seta o numero do endereco
+    public function setNumEndereco( $numendereco ) {
+        $this->numendereco = $numendereco;
+    }
+
+    // seta a cidade
     public function setCidade( $cidade ) {
         $this->cidade = $cidade;
     }
 
-    // estado
+    // seta o estado
     public function setEstado( $estado ) {
         $this->estado = $estado;
-    }
-
-    // logradouro
-    public function setLogradouro( $logradouro ) {
-        $this->logradouro = $logradouro;
     }
 }
 

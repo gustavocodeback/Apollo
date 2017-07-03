@@ -24,7 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'http://localhost/contaagil/contaagil-sistema/';
-$config['base_url'] = 'http://contaagilsistema-com-br.umbler.net/';
+$config['base_url'] = 'http://localhost/Projetos/contaagil-sistema/';
+// $config['base_url'] = 'http://contaagilsistema-com-br.umbler.net/';
 
 /*
 |--------------------------------------------------------------------------

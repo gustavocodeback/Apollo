@@ -40,4 +40,18 @@ $config['Cidade'] = [
     'estado' => 'CodEstado',
 ];
 
+$config['Banco'] = [
+    'nome'   => 'Nome',
+];
+
+$config['Empresa'] = [
+    'razao'         => 'RazaoSocial',
+    'cnpj'          => 'Cnpj',
+    'endereco'      => 'Endereco',
+    'numendereco'   => 'NumEndereco',
+    'cep'           => 'Cep',
+    'cidade'        => 'CodCidade',
+    'estado'        => 'CodEstado'
+];
+
 /* end of file */

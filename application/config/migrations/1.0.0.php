@@ -77,41 +77,54 @@ $config['schema']['Contadores'] = [
 ];
 
 $config['schema']['Empresas'] = [
-    'CodEmpresas' => [
-        'type'        => 'int',
-        'constraint'  => '11',
-        'primary_key' => TRUE,
+    'CodEmpresa' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+        'primary_key'    => TRUE,
         'auto_increment' => TRUE,
+    ],
+    'RazaoSocial' => [
+        'type'           => 'varchar',
+        'constraint'     => '32'
+    ],
+    'Cnpj' => [
+        'type'           => 'varchar',
+        'constraint'     => '14'
+    ],
+    'Endereco' => [
+        'type'           => 'varchar',
+        'constraint'     => '100'
+    ],
+    'NumEndereco' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+    ],'Cep' => [
+        'type'           => 'varchar',
+        'constraint'     => '8'
+    ],
+    'CodCidade' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+    ],
+    'CodEstado' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+    ]
+];
+
+$config['schema']['Bancos'] = [
+    'CodBanco' => [
+        'type'           => 'int',
+        'primary_key'    => TRUE,
+        'constraint'     => '11',
+        'auto_increment' => true
     ],
     'Nome' => [
         'type'       => 'varchar',
-        'constraint' => '32'
-    ],
-    'RazaoSocial' => [
-        'type'       => 'varchar',
-        'constraint' => '32'
-    ],
-    'CNPJ' => [
-        'type'       => 'char',
-        'constraint' => '1'
-    ],
-    'Endereco' => [
-        'type'       => 'char',
-        'constraint' => '1'
-    ],
-    'Cidade' => [
-        'type'       => 'char',
-        'constraint' => '1'
-    ],
-    'Estado' => [
-        'type'       => 'char',
-        'constraint' => '1'
-    ],
-    'Logradouro' => [
-        'type'       => 'char',
-        'constraint' => '1'
+        'constraint' => '100'
     ]
 ];
+
 
 
 /* end of file */
