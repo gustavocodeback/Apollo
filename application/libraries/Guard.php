@@ -202,7 +202,7 @@ class Guard {
     *
     * @param {string} $code o codigo do erro
     */
-    private function error( $code ) {
+    private function error( $code = false ) {
 
         // carrega os erros
         $errors = $this->config->item( 'errors' );
@@ -333,7 +333,7 @@ class Guard {
             $uidAlias = $this->getField( 'users', 'uid' );
 
             // verifica a senha
-            if ( crypt( $password, $user->data[$passwordAlias] ) == $user->data[$passwordAlias] ) {
+            if ( crypt( $password, $user->data[$passwordAlias] ) === $user->data[$passwordAlias] ) {
 
                 // faz o login
                 $this->login( $user->data[$uidAlias] );

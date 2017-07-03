@@ -35,6 +35,9 @@ class MY_Model extends CI_Model {
     // filtros de busca
     public $filters = [];
 
+    // serialized data
+    public $serial = [];
+
    /**
     * __construct
     *
@@ -131,10 +134,16 @@ class MY_Model extends CI_Model {
     * busca a entidade pela chave
     *
     */
-    public function key( $key ) {
+    public function key( $key, $alias = false ) {
+
+        // seta o alias
+        $alias = $alias ? $alias.'.': '';
 
         // verifica se uma chave foi setada
-        if ( isset( $this->primaryKey ) ) $this->where( " $this->primaryKey = $key " );
+        if ( isset( $this->primaryKey ) ) $this->where( " $alias"."$this->primaryKey = $key " );
+        
+        // volta  a instancia
+        return $this;
     }
 
    /**
@@ -154,9 +163,67 @@ class MY_Model extends CI_Model {
         // verifica se existe o item
         if ( !$itens ) return;
 
+        // seta a chave
+        $pk = $this->primaryKey;
+        $this->$pk = $data[$pk];
+
         // seta os dados
         foreach( $itens as $classe => $tabela ) {
             $this->$classe = $data[$tabela];
+        }
+    }
+
+   /**
+    * serialize
+    *
+    * volta os dados formatados, prontos para serem upados
+    *
+    */
+    public function serialize() {
+
+        // pega o mapeamento
+        $this->config->load( 'mapping' );
+
+        // pega o item referente
+        $itens = $this->config->item( $this->entity );
+
+        // verifica se existe o item
+        if ( !$itens ) return;
+
+        // seta os dados
+        $data = [];
+        foreach( $itens as $classe => $tabela ) {
+            $data[$tabela] = $this->$classe;
+        }
+
+        // volta os dados
+        return $data;
+    }
+
+   /**
+    * save
+    *
+    * salva o objeto no banco de dados
+    *
+    */
+    public function save() {
+
+        // pega os dados
+        $this->serial = $this->serialize();
+
+        // chave primaria
+        $pk = $this->primaryKey;
+
+        // verifica se é um update
+        if ( $this->$pk ) {
+
+            // faz o update
+            $this->db->where( $this->primaryKey, $this->$pk );
+            return $this->db->update( $this->table, $this->serial ); 
+        } else {
+            
+            // faz o insert
+            return $this->db->insert( $this->table, $this->serial );            
         }
     }
 
@@ -181,6 +248,24 @@ class MY_Model extends CI_Model {
 
         // seta o contador
         $this->count = $src->result_array()[0]['total'];
+    }
+
+   /**
+    * delete
+    *
+    * Exclui o objeto atual
+    * 
+    */
+    public function delete() {
+
+        // pega a chave primaria
+        $pk = $this->primaryKey;
+
+        // verifica se existe um valor para a mesma
+        if ( !$this->$pk ) return;
+
+        // faz a exclusao
+        return $this->db->delete( $this->table, [ $pk => $this->$pk ] ); 
     }
 
    /**
@@ -379,6 +464,12 @@ class MY_Model extends CI_Model {
         echo $this->pagination->create_links();
     }
 
+   /**
+    * filter
+    *
+    * filtra os resultados da paginacao
+    *
+    */
     public function filter() {
 
         // percorre todos os filtros
@@ -406,6 +497,12 @@ class MY_Model extends CI_Model {
         return $this;
     }
 
+   /**
+    * addFilter
+    *
+    * adiciona um novo filtro
+    *
+    */
     public function addFilter( $field, $type, $data = false, $alias = '' ) {
 
         // prepara o array do filtro
@@ -425,6 +522,12 @@ class MY_Model extends CI_Model {
         return $this;
     }
 
+   /**
+    * isFilter
+    *
+    * verifica se um campo é um filtro
+    *
+    */
     public function isFilter( $field ) {
 
         // percorre todos os filtros

@@ -129,7 +129,7 @@ class View {
 
         // verifica se existe o modulo
         if ( $item = $this->config->item( $module ) ) {
-
+            
             // verifica se existem js
             if ( isset( $item['js'] ) ) {
 
@@ -230,6 +230,12 @@ class View {
         } else $this->ci->load->view( 'errors/html/error_404' );
     }
 
+   /**
+    * getHeader
+    *
+    * volta o cabecalho do grid
+    *
+    */
     public function getHeader( $data ) {
 
         // pega o item
@@ -243,6 +249,116 @@ class View {
 
         // volta as chaves
         return array_keys( $row );
+    }
+
+   /**
+    * obterClassificacoes
+    *
+    * pega as classificacoes registradas
+    *
+    */
+    private function obterClassificacoes() {
+
+        // prepara a busca
+        $this->ci->db->from( 'Classificacoes' )
+        ->order_by( 'Ordem', 'ASC' )        
+        ->select( '*' );
+
+        // faz a busca
+        $busca = $this->ci->db->get();
+
+        // retorna os resultados
+        return $busca->num_rows() > 0 ? $busca->result_array() : [];
+    }
+
+   /**
+    * hasAccess
+    *
+    * verifica se um usuario tem acesso a uma rotina
+    *
+    */
+    public function hasAccess( $rid, $gid ) {
+
+        // prepara a busca
+        $this->ci->db->from( 'permissoes' )
+        ->select( '*' )
+        ->where( " rid = $rid AND gid = $gid " );
+
+        // faz a busca
+        $busca = $this->ci->db->get();
+
+        // volta o resultado
+        return $busca->num_rows() > 0 ? true : false;
+    }
+
+  /**
+    * obterRotinasClassificacao
+    *
+    * obtem as rotinas de uma classificacao
+    *
+    */
+    private function obterRotinasClassificacao( $cod ) {
+        
+        // prepara a busca
+        $this->ci->db->from( 'Rotinas' )
+        ->select( '*' )
+        ->where( "CodClassificacao = $cod" );
+
+        // faz a busca
+        $busca = $this->ci->db->get();
+
+        // retorna os resultados
+        return $busca->num_rows() > 0 ? $busca->result_array() : [];
+    }
+
+   /**
+    * getMenu
+    *
+    * volta o menu formatado
+    *
+    */
+    public function getMenu() {
+
+        // pega as classificacoes
+        $class = $this->obterClassificacoes();
+
+        // pega as partes da url
+        $part = $this->ci->uri->segment( 1 );
+
+        // percorre as classificacao
+        foreach( $class as $key => $item ) {
+
+            // pega as rotinas
+            $rotinas = $this->obterRotinasClassificacao( $item['CodClassificacao'] );
+            $class[$key]['active'] = false;
+
+            if ( count( $rotinas ) > 0 ) {
+
+                // percorre as rotinas
+                foreach( $rotinas as $ch => $rotina ) {
+
+                    // verifica se o usuario atual tem permissao
+
+                }
+            }
+
+            if ( count( $rotinas ) > 0 ) {
+                $class[$key]['rotinas'] = $rotinas;
+                foreach( $class[$key]['rotinas'] as $ch => $rotina ) {
+                    if ( $rotina['Link'] == $part || $rotina['Link'] == $part.'/index' ) {
+                        $class[$key]['rotinas'][$ch]['active'] = true;
+                        $class[$key]['active'] = true;
+                    } else {
+                        $class[$key]['rotinas'][$ch]['active'] = false;
+                    }
+                }
+            }
+            else 
+                unset( $class[$key] );
+        }
+
+        // volta as classificacoes
+        return $class;
     }
 }
 

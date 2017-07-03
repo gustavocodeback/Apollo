@@ -24,6 +24,10 @@ $config['users'] = [
                 'constraint'  => 32,
                 'primary_key' => TRUE
         ],
+        'gid' => [
+                'type' => 'INT',
+                'constraint' => 11,
+        ],
         'email' => [
                 'type'        => 'VARCHAR',
                 'constraint'  => '100',              
@@ -50,9 +54,10 @@ $config['groups'] = [
     'table' => 'Grupos',
     'fields'=> [
         'gid' => [
-                'type'        => 'VARCHAR',
-                'constraint'  => 32,
-                'primary_key' => TRUE
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'primary_key'    => TRUE
         ],
         'grupo' => [
                 'type'        => 'VARCHAR',
@@ -71,20 +76,23 @@ $config['routines'] = [
     'table' => 'Rotinas',
     'fields'=> [
         'rid' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 5,
-                'unique'     => TRUE,
-                'primary_key' => TRUE
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'primary_key'    => TRUE
+        ],
+        'CodClassificacao' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
         ],
         'Rotina' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',
                 'unique'     => TRUE,
         ],
-        'ref' => [
+        'Link' => [
                 'type'       => 'VARCHAR',
-                'constraint' => 32,
-                'unique'     => TRUE,
+                'constraint' => '255'
         ]
     ]
 ];
@@ -100,18 +108,17 @@ $config['permissions'] = [
     'fields'=> [
         'pid' => [
                 'type'           => 'INT',
-                'constraint'     => 5,
-                'unsigned'       => TRUE,
-                'primary_key'    => TRUE,
-                'auto_increment' => TRUE
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'primary_key'    => TRUE
         ],
         'gid' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '32',
+                'type'           => 'INT',
+                'constraint'     => 11,
         ],
         'rid' => [
-                'type'       =>'VARCHAR',
-                'constraint' => '32'
+                'type'           => 'INT',
+                'constraint'     => 11,
         ],
         'access' => [
                 'type'       =>'CHAR',

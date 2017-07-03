@@ -23,7 +23,7 @@ class MY_Controller extends CI_Controller {
         $this->_migrate();
         
         // seta a url de fuga
-        $this->urlGuard = site_url( );
+        $this->urlGuard = site_url( 'login' );
 
         // chama o metodo protetor
         $this->_guard( $this->public );
@@ -53,18 +53,23 @@ class MY_Controller extends CI_Controller {
     * protege o acesso para acessos remotos
     *
     */
-    protected function _guard( $public = false) {
+    protected function _guard( $public = false ) {
 
         // verifica se a url é protegida
-        if ( $this->public && $public ) return true;
+        if ( $this->public && $this->guard->currentUser() !== null ) {
+
+            // redireciona para a url de guard
+            redirect( site_url( 'dashboard' ) );
+            die();
+        };
 
         // verifica se o usuario esta logado
-        if ( !$this->guard->currentUser() ) {
+        if ( !$this->public && $this->guard->currentUser() === null ) {
 
             // redireciona para a url de guard
             redirect( $this->urlGuard );
             die();
-        } else return false;
+        };
     }
 }
 
