@@ -136,6 +136,42 @@ $config['schema']['Bancos'] = [
     ]
 ];
 
+// Tabela Carteiras
+$config['schema']['Carteiras'] = [
+    'CodCarteira' => [
+        'type'           => 'int',
+        'primary_key'    => TRUE,
+        'constraint'     => '11',
+        'auto_increment' => true
+    ],
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
+    'CodColaborador' => [
+        'type'        => 'int',
+        'constraint'  => '11'
+    ],
+];
+
+// Tabela Carteiras
+$config['schema']['CarteirasClientes'] = [
+    'CodCarteiraCliente' => [
+        'type'           => 'int',
+        'primary_key'    => TRUE,
+        'constraint'     => '11',
+        'auto_increment' => true
+    ],
+    'CodCarteira' => [
+        'type' => 'int',
+        'constraint' => '11',
+    ],
+    'CodEmpresa' => [
+        'type' => 'int',
+        'constraint' => '11'
+    ]
+];
+
 // tabela de Clientes
 $config['schema']['Clientes'] = [
     'CodCliente' => [

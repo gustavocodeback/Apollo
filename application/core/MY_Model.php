@@ -136,6 +136,9 @@ class MY_Model extends CI_Model {
     */
     public function key( $key, $alias = false ) {
 
+        // limpa o where
+        $this->whereClause = '';
+
         // seta o alias
         $alias = $alias ? $alias.'.': '';
 
@@ -143,6 +146,21 @@ class MY_Model extends CI_Model {
         if ( isset( $this->primaryKey ) ) $this->where( " $alias"."$this->primaryKey = '$key' " );
         
         // volta  a instancia
+        return $this;
+    }
+
+  /**
+    * clean
+    *
+    * limpa o cache
+    *
+    */
+    public function clean() {
+
+         // limpa o where
+        $this->whereClause = '';
+
+        // volta a instancia
         return $this;
     }
 

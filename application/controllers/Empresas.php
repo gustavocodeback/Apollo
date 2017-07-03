@@ -182,6 +182,14 @@ class Empresas extends MY_Controller {
     */
     public function salvar() {
 
+        // carrega os cidades
+        $cidades = $this->CidadesFinder->get();
+        $this->view->set( 'cidades', $cidades );
+
+        // carrega os estados
+        $estados = $this->EstadosFinder->get();
+        $this->view->set( 'estados', $estados );
+
         $search = array('.','/','-');
         $cnpj = str_replace ( $search , '' , $this->input->post( 'cnpj') );
         $cep = str_replace ( '-' , '' , $this->input->post( 'cep' ) ) ;

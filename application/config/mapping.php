@@ -53,6 +53,11 @@ $config['Banco'] = [
     'nome'   => 'Nome',
 ];
 
+$config['Carteira'] = [
+    'nome' => 'Nome',
+    'colaborador' => 'CodColaborador',
+];
+
 $config['Empresa'] = [
     'razao'         => 'RazaoSocial',
     'cnpj'          => 'Cnpj',

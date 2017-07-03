@@ -90,6 +90,48 @@ class EmpresasFinder extends MY_Model {
 
         } else return [];
     }
+
+   /**
+    * naCarteira
+    *
+    * busca as empresas em uma carteira de clientes
+    *
+    */
+    public function obterCarteira( $cod ) {
+        
+        // prepara a busca
+        $this->db->from( 'CarteirasClientes cc' )
+        ->select( 'cc.*, e.*' )
+        ->join( $this->table.' e', 'e.CodEmpresa = cc.CodEmpresa' )
+        ->where( "cc.CodCarteira = $cod" );
+
+        // faz a busca
+        $busca = $this->db->get();
+
+        // volta os resultados
+        return $busca->num_rows() > 0 ? $busca->result_array() : [];
+    }
+
+   /**
+    * naCarteira
+    *
+    * busca as empresas em uma carteira de clientes
+    *
+    */
+    public function obterEmpresaCarteira( $empresa ) {
+
+        // prepara a busca
+        $this->db->from( 'CarteirasClientes cc' )
+        ->select( 'cc.*, e.*' )
+        ->join( $this->table.' e', 'e.CodEmpresa = cc.CodEmpresa' )
+        ->where( "e.CodEmpresa = $empresa->CodEmpresa" );
+
+        // faz a busca
+        $busca = $this->db->get();
+
+        // volta os resultados
+        return $busca->num_rows() > 0 ? $busca->result_array() : [];
+    }
 }
 
 /* end of file */

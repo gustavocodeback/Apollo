@@ -83,6 +83,19 @@ class Empresa extends MY_Model {
     public function setEstado( $estado ) {
         $this->estado = $estado;
     }
+
+    // adiciona na carteira
+    public function colocarNaCarteira( $carteira ) {
+
+        // prepara os dados
+        $dados = [
+            'CodCarteira' => $carteira->CodCarteira,
+            'CodEmpresa' => $this->CodEmpresa
+        ];
+
+        // faz o inset
+        return $this->db->insert( 'CarteirasClientes', $dados );
+    }
 }
 
 /* end of file */
