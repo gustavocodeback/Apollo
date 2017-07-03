@@ -140,7 +140,7 @@ class MY_Model extends CI_Model {
         $alias = $alias ? $alias.'.': '';
 
         // verifica se uma chave foi setada
-        if ( isset( $this->primaryKey ) ) $this->where( " $alias"."$this->primaryKey = $key " );
+        if ( isset( $this->primaryKey ) ) $this->where( " $alias"."$this->primaryKey = '$key' " );
         
         // volta  a instancia
         return $this;

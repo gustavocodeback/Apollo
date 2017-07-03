@@ -66,7 +66,7 @@ class Guard {
     * gera uma key aleatoria
     *
     */
-    private function _generateKey() {
+    public function _generateKey() {
 
         // volta um id aleatorio
         return md5( uniqid( rand() * time() ) );
@@ -360,7 +360,7 @@ class Guard {
     * @param {string} $email
     * @param {string} $password
     */
-    public function createUserWithEmailAndPassword( $email, $password ) {
+    public function createUserWithEmailAndPassword( $email, $password, $gid = false ) {
         
         // cria uma nova instancia de User
         $user = new User( $this->ci->db, $this->config );
@@ -375,7 +375,7 @@ class Guard {
         }
         
         // cria o usuario
-        return $user->createUser( $email, $password );
+        return $user->createUser( $email, $password, $gid );
     }
 }
 

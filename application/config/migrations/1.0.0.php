@@ -55,8 +55,8 @@ $config['schema']['Classificacoes'] = [
     ]
 ];
 
-$config['schema']['Contadores'] = [
-    'CodContador' => [
+$config['schema']['Colaboradores'] = [
+    'CodColaborador' => [
         'type'        => 'int',
         'constraint'  => '11',
         'primary_key' => TRUE,
@@ -67,6 +67,10 @@ $config['schema']['Contadores'] = [
         'constraint' => '32'
     ],
     'nome' => [
+        'type'       => 'varchar',
+        'constraint' => '32'
+    ],
+    'cpf' => [
         'type'       => 'varchar',
         'constraint' => '32'
     ],

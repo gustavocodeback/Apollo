@@ -22,10 +22,9 @@ $config['Classificacao'] = [
     'ordem'  => 'Ordem'
 ];
 
-$config['Contador'] = [
+$config['Colaborador'] = [
     'nome'   => 'nome',
-    'email' => 'email',
-    'gid' => 'gid',
+    'cpf'   => 'cpf',
     'status' => 'status',
     'uid'  => 'uid'
 ];
@@ -40,4 +39,10 @@ $config['Cidade'] = [
     'estado' => 'CodEstado',
 ];
 
+$config['Usuario'] = [
+    'uid'   => 'uid',
+    'email' => 'email',
+    'senha' => 'password',
+    'gid' => 'gid',
+];
 /* end of file */
