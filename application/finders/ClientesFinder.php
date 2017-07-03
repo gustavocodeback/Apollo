@@ -4,45 +4,59 @@ require 'application/models/Cliente.php';
 
 class ClientesFinder extends MY_Model {
 
+    // entidade
     public $entity = 'Cliente';
 
-    public $table = 'clientes';
+    // tabela
+    public $table = 'Clientes';
 
-    public $primaryKey = 'codcliente';
+    // chave primaria
+    public $primaryKey = 'CodCliente';
 
+    // labels
     public $labels = [
-        'nome'   => 'Nome',
-        'email'  => 'E-mail',
-        'idade'  => 'Idade',
-        'status' => 'Status'
+        'Nome'  => 'Nome',
+        'Cpf' => 'CPF',
+        'Status' => 'Status',
+        'CodEmpresa' => 'Empresa'
     ];
 
+   /**
+    * __construct
+    *
+    * metodo construtor
+    *
+    */
     public function __construct() {
-        $this->entity = new Cliente();
+        parent::__construct();
     }
 
+   /**
+    * getCliente
+    *
+    * pega a instancia do cliente
+    *
+    */
     public function getCliente() {
-        return $this->entity;
+        return new $this->entity();
     }
 
-    public function ativos() {
-        $this->db->where( " status = 'A' " );
-        return $this;
-    }
-
-    public function inativos() {
-        $this->db->where( " status <> 'A' " );
-        return $this;
-    }
-
-    public function maioresDeIdade() {
-        $this->db->where( " Idade > 18 " );
-        return $this;
-    }
-    
+   /**
+    * grid
+    *
+    * funcao usada para gerar o grid
+    *
+    */
     public function grid() {
-        $this->db->from( $this->table )
-        ->select( 'codcliente as id, nome, email, idade, status, codcliente as Acoes' );
+        $this->db->from( $this->table.' c' )
+        ->select( ' CodCliente as Código, 
+                    RazaoSocial as Empresa,
+                    Cpf, 
+                    Telefone, 
+                    Nome, 
+                    Status, 
+                    CodCliente as Ações' )
+        ->join( 'Empresas e', 'e.CodEmpresa = c.CodEmpresa', 'left' );
         return $this;
     }
 }

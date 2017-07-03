@@ -29,6 +29,16 @@ $config['Colaborador'] = [
     'uid'  => 'uid'
 ];
 
+$config['Cliente'] = [
+    'nome'     => 'nome',
+    'cpf'      => 'cpf',
+    'telefone' => 'telefone',
+    'criado'   => 'criado',
+    'status'   => 'status',
+    'uid'      => 'uid',
+    'empresa'      => 'CodEmpresa',
+];
+
 $config['Estado'] = [
     'nome'   => 'Nome',
     'uf' => 'Uf',

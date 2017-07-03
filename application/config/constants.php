@@ -10,7 +10,7 @@
 | of this setting
 |
 */
-defined( 'USE_DATABASE_VERSIONS' ) OR define( 'USE_DATABASE_VERSIONS', true );
+defined( 'USE_DATABASE_VERSIONS' ) OR define( 'USE_DATABASE_VERSIONS', false );
 
 
 /*

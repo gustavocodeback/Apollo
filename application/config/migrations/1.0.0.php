@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+// Tabela de estados
 $config['schema']['Estados'] = [
     'CodEstado' => [
         'type'           => 'int',
@@ -17,6 +18,7 @@ $config['schema']['Estados'] = [
     ]
 ];
 
+// Tabela de Cidades
 $config['schema']['Cidades'] = [
     'CodCidade' => [
         'type'           => 'int',
@@ -34,6 +36,7 @@ $config['schema']['Cidades'] = [
     ]
 ];
 
+// Tabela de classificacoes
 $config['schema']['Classificacoes'] = [
     'CodClassificacao' => [
         'type'           => 'int',
@@ -55,6 +58,7 @@ $config['schema']['Classificacoes'] = [
     ]
 ];
 
+// Tabela de colaboradores
 $config['schema']['Colaboradores'] = [
     'CodColaborador' => [
         'type'        => 'int',
@@ -80,6 +84,7 @@ $config['schema']['Colaboradores'] = [
     ]
 ];
 
+// tabela de empresas
 $config['schema']['Empresas'] = [
     'CodEmpresa' => [
         'type'           => 'int',
@@ -102,7 +107,8 @@ $config['schema']['Empresas'] = [
     'NumEndereco' => [
         'type'           => 'int',
         'constraint'     => '11',
-    ],'Cep' => [
+    ],
+    'Cep' => [
         'type'           => 'varchar',
         'constraint'     => '8'
     ],
@@ -116,6 +122,7 @@ $config['schema']['Empresas'] = [
     ]
 ];
 
+// Tabela Bancos
 $config['schema']['Bancos'] = [
     'CodBanco' => [
         'type'           => 'int',
@@ -129,6 +136,41 @@ $config['schema']['Bancos'] = [
     ]
 ];
 
-
+// tabela de Clientes
+$config['schema']['Clientes'] = [
+    'CodCliente' => [
+        'type'           => 'int',
+        'primary_key'    => TRUE,
+        'constraint'     => '11',
+        'auto_increment' => true
+    ],
+    'CodEmpresa' => [
+        'type'       => 'int',
+        'constraint' => '11'
+    ],
+    'uid' => [
+        'type'       => 'varchar',
+        'constraint' => '32'
+    ],
+    'nome' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
+    'telefone' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+    ],
+    'cpf' => [
+        'type'       => 'varchar',
+        'constraint' => '32'
+    ],
+    'criado' => [
+        'type'       => 'datetime',
+    ],
+    'status' => [
+        'type'       => 'char',
+        'constraint' => '1'
+    ]
+];
 
 /* end of file */
