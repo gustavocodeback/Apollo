@@ -75,10 +75,13 @@ class Colaboradores extends MY_Controller {
 			echo '<a href="'.site_url( 'colaboradores/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
 		})
         ->onApply( 'Status', function( $row, $key ) {
-            if ( $row['Status'] == 'A' )
+            if ( $row[$key] == 'A' )
                 echo '<b class="text-success">Ativo</b>';
             else
                 echo '<b class="text-danger">Bloqueado</b>';
+        })
+        ->onApply( 'Cpf', function( $row, $key ) {
+            echo mascara_cpf( $row[$key] );
         })
 
 		// renderiza o grid
@@ -99,6 +102,9 @@ class Colaboradores extends MY_Controller {
     */
     public function adicionar() {
 
+        // carrega o jquery mask
+        $this->view->module( 'jquery-mask' );
+
         // seta os grupos
         $usuarios = $this->UsuariosFinder->get();
         $this->view->set( 'usuarios', $usuarios );
@@ -115,6 +121,9 @@ class Colaboradores extends MY_Controller {
     */
     public function alterar( $key ) {
 
+        // carrega o jquery mask
+        $this->view->module( 'jquery-mask' );
+        
         // seta os usuarios
         $usuarios = $this->UsuariosFinder->get();
         $this->view->set( 'usuarios', $usuarios );
@@ -156,10 +165,13 @@ class Colaboradores extends MY_Controller {
     */
     public function salvar() {
 
+        // retira a mascara do cpf
+        $cpf = str_replace( ['-', '.', ' ', '_' ], '', $this->input->post( 'cpf' ) );
+
         // instancia um novo objeto grupo
         $colaborador = $this->ColaboradoresFinder->getColaborador();
         $colaborador->setNome( $this->input->post( 'nome' ) );
-        $colaborador->setCpf( $this->input->post( 'cpf' ) );
+        $colaborador->setCpf( $cpf );
         $colaborador->setStatus( $this->input->post( 'status' ) );
         $colaborador->setUid( $this->input->post( 'uid' ) );
         $colaborador->setCod( $this->input->post( 'cod' ) );

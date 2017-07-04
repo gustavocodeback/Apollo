@@ -3,7 +3,7 @@
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'permissoes/salvar', [ 'class' => 'card container' ] )?>
+    <?php echo form_open( 'permissoes/salvar', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
             <h2>Permissōes de acesso</h2>

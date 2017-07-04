@@ -129,9 +129,9 @@ class Rotinas extends MY_Controller {
     *
     */
     public function excluir( $key ) {
-        $grupo = $this->RotinasFinder->getRotina();
-        $grupo->setGid( $key );
-        $grupo->delete();
+        $rotina = $this->RotinasFinder->getRotina();
+        $rotina->setRid( $key );
+        $rotina->delete();
         $this->index();
     }
 

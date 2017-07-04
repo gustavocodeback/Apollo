@@ -4,7 +4,7 @@
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'colaboradores/salvar', [ 'class' => 'card container' ] )?>
+    <?php echo form_open( 'colaboradores/salvar', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
             <h2>Novo colaborador</h2>
@@ -49,11 +49,11 @@
                 <div class="form-group">
                     <label for="cpf">CPF</label>
                     <input  type="text" 
-                            class="form-control" 
+                            class="form-control cpf" 
                             id="cpf" 
                             name="cpf" 
                             required
-                            value="<?php echo $colaborador ? $colaborador->cpf : ''; ?>"
+                            value="<?php echo $colaborador ? mascara_cpf( $colaborador->cpf ) : ''; ?>"
                             placeholder="999.999.999-99">
                 </div>
             </div>

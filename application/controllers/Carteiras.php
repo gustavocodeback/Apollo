@@ -132,7 +132,7 @@ class Carteiras extends MY_Controller {
     *
     */
     public function excluir( $key ) {
-        $carteira = $this->CarteirasFinder->getBanco();
+        $carteira = $this->CarteirasFinder->getCarteira();
         $carteira->setCod( $key );
         $carteira->delete();
         $this->index();
@@ -170,6 +170,12 @@ class Carteiras extends MY_Controller {
         }
     }
 
+   /**
+    * salvar_clientes
+    *
+    * salva os clientes em uma carteira
+    *
+    */
     public function salvar_clientes( ) {
 
         // pega o id
@@ -209,9 +215,16 @@ class Carteiras extends MY_Controller {
         }
 
         // mostra a tela de edicao
-        $this->editar_clientes( $id );
+        redirect( 'carteiras' );
+        return;
     }
 
+   /**
+    * editar_clientes
+    *
+    * edita uma carteira de clientes
+    *
+    */
     public function editar_clientes( $id ) {
 
         // carrega a carteira

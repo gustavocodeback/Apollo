@@ -280,7 +280,7 @@ class View {
     public function hasAccess( $rid, $gid ) {
 
         // prepara a busca
-        $this->ci->db->from( 'permissoes' )
+        $this->ci->db->from( 'Permissoes' )
         ->select( '*' )
         ->where( " rid = $rid AND gid = $gid " );
 
@@ -332,13 +332,16 @@ class View {
             $rotinas = $this->obterRotinasClassificacao( $item['CodClassificacao'] );
             $class[$key]['active'] = false;
 
+            // verifica se existe rotina
             if ( count( $rotinas ) > 0 ) {
 
                 // percorre as rotinas
                 foreach( $rotinas as $ch => $rotina ) {
 
                     // verifica se o usuario atual tem permissao
-
+                    if ( !$this->hasAccess( $rotina['rid'], $this->user->data['gid'] ) ) {
+                        unset( $rotinas[$ch] );
+                    }
                 }
             }
 

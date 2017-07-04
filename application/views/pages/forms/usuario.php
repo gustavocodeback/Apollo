@@ -4,7 +4,7 @@
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'usuarios/salvar', [ 'class' => 'card container' ] )?>
+    <?php echo form_open( 'usuarios/salvar', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
             <h2>Nova usuario</h2>

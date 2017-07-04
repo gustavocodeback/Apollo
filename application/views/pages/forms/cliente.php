@@ -4,7 +4,7 @@
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'clientes/salvar', [ 'class' => 'card container' ] )?>
+    <?php echo form_open( 'clientes/salvar', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
             <h2>Novo cliente</h2>
@@ -65,11 +65,11 @@
                 <div class="form-group">
                     <label for="cpf">CPF</label>
                     <input  type="text" 
-                            class="form-control" 
+                            class="form-control cpf" 
                             id="cpf" 
                             name="cpf" 
                             required
-                            value="<?php echo $cliente ? $cliente->cpf : ''; ?>"
+                            value="<?php echo $cliente ? mascara_cpf( $cliente->cpf ) : ''; ?>"
                             placeholder="999.999.999-99">
                 </div>
             </div>
@@ -80,11 +80,11 @@
                 <div class="form-group">
                     <label for="nome">Telefone</label>
                     <input  type="text" 
-                            class="form-control" 
+                            class="form-control telefone" 
                             id="telefone" 
                             name="telefone" 
                             required
-                            value="<?php echo $cliente ? $cliente->telefone : ''; ?>"
+                            value="<?php echo $cliente ? mascara_telefone( $cliente->telefone ) : ''; ?>"
                             placeholder="(99) 99999-9999">
                 </div>
             </div>

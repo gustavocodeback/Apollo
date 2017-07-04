@@ -116,6 +116,9 @@ class Empresas extends MY_Controller {
     */
     public function adicionar() {
 
+        // carrega o jquery mask
+        $this->view->module( 'jquery-mask' );
+        
         // carrega os cidades
         $cidades = $this->CidadesFinder->get();
         $this->view->set( 'cidades', $cidades );
@@ -135,6 +138,9 @@ class Empresas extends MY_Controller {
     *
     */
     public function alterar( $key ) {
+
+        // carrega o jquery mask
+        $this->view->module( 'jquery-mask' );
 
         // carrega o classificacao
         $empresa = $this->EmpresasFinder->key( $key )->get( true );
@@ -169,8 +175,7 @@ class Empresas extends MY_Controller {
     public function excluir( $key ) {
         $empresa = $this->EmpresasFinder->getEmpresa();
         $empresa->setCod( $key );
-        $empresa->delete();
-
+        $empresa->delete(); 
         $this->index();
     }
 

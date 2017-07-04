@@ -8,13 +8,13 @@
 
     <div class="container">
         <?php $view->component( 'breadcrumb' ); ?>        
-         <div class="row">
+         <div class="row fade-in">
             <div class="col-md-12">
                 <?php $view->component( 'filters' ); ?>
             </div>
         </div>
         <?php if ( $view->item( 'add_url' ) ): ?>
-        <div class="row margin">
+        <div class="row margin fade-in">
             <div class="col-md-12">
                 <a href="<?php echo $view->item( 'add_url' ); ?>" class="btn btn-success">Adicionar</a> 
             </div>
@@ -22,7 +22,7 @@
         </div>
         <?php endif; ?>
         
-        <div class="row">
+        <div class="row fade-in">
             <div class="col-md-12">
                 <?php $view->component( 'table' ); ?>            
             </div>

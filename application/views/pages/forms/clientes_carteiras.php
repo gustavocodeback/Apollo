@@ -4,7 +4,7 @@
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'carteiras/salvar_clientes', [ 'class' => 'card container' ] )?>
+    <?php echo form_open( 'carteiras/salvar_clientes', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
             <h2>Carteira de clientes</h2>

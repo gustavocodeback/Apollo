@@ -61,7 +61,7 @@ class Permissoes extends MY_Controller {
     *
     */
     private function deleteAll() {
-        $this->db->empty_table( 'permissoes' );
+        $this->db->empty_table( 'Permissoes' );
     }
 
    /**

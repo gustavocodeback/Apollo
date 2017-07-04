@@ -84,6 +84,12 @@ class Clientes extends MY_Controller {
             else
                 echo '<b class="text-danger">Bloqueado</b>';
         })
+        ->onApply( 'Cpf', function( $row, $key ) {
+            echo mascara_cpf( $row['Cpf'] );
+        })
+        ->onApply( 'Telefone', function( $row, $key ) {
+            echo mascara_telefone( $row[$key] );
+        })
 
 		// renderiza o grid
 		->render( site_url( 'clientes/index' ) );
@@ -102,6 +108,9 @@ class Clientes extends MY_Controller {
     *
     */
     public function adicionar() {
+
+        // seta o jquery mask
+        $this->view->module( 'jquery-mask' );
 
         // seta os grupos
         $usuarios = $this->UsuariosFinder->get();
@@ -122,6 +131,9 @@ class Clientes extends MY_Controller {
     *
     */
     public function alterar( $key ) {
+
+        // seta o jquery mask
+        $this->view->module( 'jquery-mask' );
 
         // seta os grupos
         $usuarios = $this->UsuariosFinder->get();
@@ -168,15 +180,19 @@ class Clientes extends MY_Controller {
     */
     public function salvar() {
 
+        // retira a mascara do cpf e do telefone
+        $cpf = str_replace( [ '-', '.', ' ' ], '', $this->input->post( 'cpf' ) );
+        $tel = str_replace( [ '(', ')', ' ', '-', '.', '_' ], '', $this->input->post( 'telefone' ) );
+
         // instancia um novo objeto grupo
         $cliente = $this->ClientesFinder->getCliente();
-        $cliente->setNome( $this->input->post( 'nome' ) );
-        $cliente->setCpf( $this->input->post( 'cpf' ) );
-        $cliente->setEmpresa( $this->input->post( 'empresa' ) );
-        $cliente->setTelefone( $this->input->post( 'telefone' ) );
-        $cliente->setStatus( $this->input->post( 'status' ) );
+        $cliente->setCpf( $cpf );
+        $cliente->setTelefone( $tel );
         $cliente->setUid( $this->input->post( 'uid' ) );
         $cliente->setCod( $this->input->post( 'cod' ) );
+        $cliente->setNome( $this->input->post( 'nome' ) );
+        $cliente->setStatus( $this->input->post( 'status' ) );
+        $cliente->setEmpresa( $this->input->post( 'empresa' ) );
 
         // verifica se existe o codigo
         if ( !$cliente->CodCliente ) $cliente->setCadastro( date( 'Y-m-d H:i:s', time() ) );

@@ -148,6 +148,10 @@ $config['schema']['Carteiras'] = [
         'type'        => 'int',
         'constraint'  => '11'
     ],
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
 ];
 
 $config['schema']['Departamentos'] = [

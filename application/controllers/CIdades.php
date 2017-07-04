@@ -131,7 +131,7 @@ class Cidades extends MY_Controller {
     *
     */
     public function excluir( $key ) {
-        $grupo = $this->CidadesFinder->getEstado();
+        $grupo = $this->CidadesFinder->getCidade();
         $grupo->setCod( $key );
         $grupo->delete();
         $this->index();

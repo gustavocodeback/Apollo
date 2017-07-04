@@ -4,7 +4,7 @@
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
 
-    <?php echo form_open( 'empresas/salvar', [ 'class' => 'card container' ] )?>
+    <?php echo form_open( 'empresas/salvar', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
             <h2>Nova empresa</h2>
@@ -18,7 +18,7 @@
                  <div class="form-group">
                     <label for="cnpj">CNPJ</label>
                     <input  type="text" 
-                            class="form-control" 
+                            class="form-control cnpj" 
                             id="cnpj" 
                             name="cnpj" 
                             required
@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <label for="cep">Cep</label>
                     <input  type="text" 
-                            class="form-control" 
+                            class="form-control cep" 
                             id="cep" 
                             name="cep" 
                             required
