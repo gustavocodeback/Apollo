@@ -100,4 +100,74 @@ $config['schema']['Logs'] = [
     ]
 ];
 
+// Tabela de clientes
+$config['schema']['Clientes'] = [
+    'CodCliente' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+        'primary_key'    => TRUE,
+        'auto_increment' => TRUE
+    ],
+    'CodProduto' => [
+        'type'       => 'int',
+        'constraint' => '11',
+    ],
+    'TipoCadastro' => [
+        'type'       => 'char',
+        'constraint' => 1
+    ],
+    'CNPJ' => [
+        'type'       => 'varchar',
+        'constraint' => '20'
+    ],
+    'CPF' => [
+        'type'       => 'varchar',
+        'constraint' => '20'
+    ],
+    'Email' => [
+        'type'       => 'varchar',
+        'constraint' => '60'
+    ], 
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '60'
+    ], 
+    'TaxaInicial' => [
+        'type'       => 'varchar',
+        'constraint' => '60'
+    ], 
+    'TaxaMensal' => [
+        'type'       => 'varchar',
+        'constraint' => '60'
+    ], 
+    'MaxView' => [
+        'type'       => 'int',
+        'constraint' => '6'
+    ], 
+    'MaxPush' => [
+        'type'       => 'int',
+        'constraint' => '2'
+    ], 
+    'MaxProdutos' => [
+        'type'       => 'int',
+        'constraint' => '6'
+    ],
+    'TokenApi' => [
+        'type'       => 'varchar',
+        'constraint' => '32'
+    ],
+    'Banco' => [
+        'type'       => 'varchar',
+        'constraint' => '32'
+    ],
+    'UsuarioBanco' => [
+        'type'       => 'varchar',
+        'constraint' => '32'
+    ],
+    'SenhaBanco' => [
+        'type'       => 'varchar',
+        'constraint' => '32'
+    ]
+];
+
 /* end of file */
