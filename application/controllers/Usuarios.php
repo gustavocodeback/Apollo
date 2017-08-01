@@ -8,6 +8,9 @@ class Usuarios extends MY_Controller {
     // indica se o controller é publico
 	protected $public = false;
 
+    // seta a rotina
+    protected $routine = 'Usuários';
+
    /**
     * __construct
     *
@@ -88,6 +91,9 @@ class Usuarios extends MY_Controller {
     *
     */
     public function adicionar() {
+
+        // checa a permissao
+        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // carrega as classificacoes
         $grupos = $this->GruposFinder->get();

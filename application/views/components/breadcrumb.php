@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-12">
         <br>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb z-depth-1" style="background: white">
             <li class="breadcrumb-item"><a href="<?php echo site_url(); ?>">Inicio</a></li>
             <?php foreach( $parts as $key => $part ): ?>
             <?php if ( $part !== 'index' ): ?>

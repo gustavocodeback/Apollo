@@ -83,3 +83,10 @@ $config['navbar'] = [
         site_url( 'assets/components/navbar/navbar.css' )
     ]
 ];
+
+// seta o footer
+$config['footer'] = [
+    'css'=> [
+        site_url( 'assets/components/footer/footer.css' )
+    ]
+];

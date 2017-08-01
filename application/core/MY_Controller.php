@@ -8,6 +8,9 @@ class MY_Controller extends CI_Controller {
     // rota que deve ser redirecionada
     protected $urlGuard;
 
+    // rotina
+    protected $routine = false;
+
    /**
     * __construct
     *
@@ -72,6 +75,12 @@ class MY_Controller extends CI_Controller {
         };
     }
 
+   /**
+    * valid_cnpj
+    *
+    * valida o acesso
+    *
+    */
     function valid_cnpj($str) {
         if (strlen($str) > 18 || strlen($str) < 14) {
             $this->form_validation->set_message('valid_cnpj','Cnpj inválido!');
@@ -107,6 +116,50 @@ class MY_Controller extends CI_Controller {
                 return false;
             }
         }
+    }
+
+   /**
+    * checkAccess
+    *
+    * verifica se o usuário atual pode acessar um item
+    *
+    */
+    protected function checkAccess( $actions = [] ) {
+
+        // verifica se existe uma rotina
+        if ( !$this->routine ) {
+            $this->view->setTitle( 'Acesso negado' )->render( 'denied' );
+            return false;
+        }
+
+        // carrega o finder
+        $this->load->finder( 'RotinasFinder' );
+
+        // carrega a rotina
+        $rotina = $this->RotinasFinder->clean()->nome( $this->routine )->get( true );
+        if ( !$rotina )  {
+            $this->view->setTitle( 'Acesso negado' )->render( 'denied' );
+            return false;
+        }
+
+        // seta a permissao
+        $canActive = true;
+
+        // pega o usuario
+        $user = $this->guard->currentUser();
+
+        // percorre as acoes
+        foreach( $actions as $acao ) {
+            
+            // verifica se o usuário pode executar a acao
+            if ( !$this->view->$acao( $rotina->rid, $user->data['gid'] ) ) $canActive = false;
+        }
+
+        // verifica se pode acessar
+        if ( !$canActive ) {
+            $this->view->setTitle( 'Acesso negado' )->render( 'denied' );
+            return false;
+        } else return true;
     }
 }
 

@@ -1,9 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cargos extends MY_Controller {
+class Grupos extends MY_Controller {
 
     // indica se o controller é publico
 	protected $public = false;
+
+    // seta a rotina
+    protected $routine = 'Grupos';
 
    /**
     * __construct
@@ -22,18 +25,18 @@ class Cargos extends MY_Controller {
     }
 
    /**
-    * _formularioCargos
+    * _formularioGrupos
     *
-    * valida o formulario de cargos
+    * valida o formulario de grupos
     *
     */
-    private function _formularioCargos() {
+    private function _formularioGrupos() {
 
         // seta as regras
         $rules = [
             [
-                'field' => 'cargo',
-                'label' => 'Cargo',
+                'field' => 'grupo',
+                'label' => 'Grupo',
                 'rules' => 'required|min_length[2]|max_length[30]'
             ]
         ];
@@ -46,10 +49,13 @@ class Cargos extends MY_Controller {
    /**
     * index
     *
-    * mostra o grid de cargos
+    * mostra o grid de grupos
     *
     */
 	public function index() {
+
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return;
 
         // faz a paginacao
 		$this->GruposFinder->grid()
@@ -60,18 +66,18 @@ class Cargos extends MY_Controller {
 
 		// seta as funcoes nas colunas
 		->onApply( 'Ações', function( $row, $key ) {
-			echo '<a href="'.site_url( 'cargos/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
-			echo '<a href="'.site_url( 'cargos/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
+			echo '<a href="'.site_url( 'grupos/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
+			echo '<a href="'.site_url( 'grupos/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
 		})
 
 		// renderiza o grid
-		->render( site_url( 'cargos/index' ) );
+		->render( site_url( 'grupos/index' ) );
 		
         // seta a url para adiciona
-        $this->view->set( 'add_url', site_url( 'cargos/adicionar' ) );
+        $this->view->set( 'add_url', site_url( 'grupos/adicionar' ) );
 
 		// seta o titulo da pagina
-		$this->view->setTitle( 'Cargos - listagem' )->render( 'grid' );
+		$this->view->setTitle( 'Grupos - listagem' )->render( 'grid' );
     }
 
    /**
@@ -82,8 +88,11 @@ class Cargos extends MY_Controller {
     */
     public function adicionar() {
 
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
+
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar cargo' )->render( 'forms/cargo' );
+        $this->view->setTitle( 'Conta Ágil - Adicionar grupo' )->render( 'forms/grupo' );
     }
 
    /**
@@ -94,20 +103,23 @@ class Cargos extends MY_Controller {
     */
     public function alterar( $key ) {
 
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+
         // carrega o cargo
-        $cargo = $this->GruposFinder->key( $key )->get( true );
+        $grupo = $this->GruposFinder->key( $key )->get( true );
 
         // verifica se o mesmo existe
-        if ( !$cargo ) {
-            redirect( 'cargos/index' );
+        if ( !$grupo ) {
+            redirect( 'grupos/index' );
             exit();
         }
 
         // salva na view
-        $this->view->set( 'cargo', $cargo );
+        $this->view->set( 'grupo', $grupo );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar cargo' )->render( 'forms/cargo' );
+        $this->view->setTitle( 'Conta Ágil - Adicionar grupo' )->render( 'forms/grupo' );
     }
 
    /**
@@ -117,10 +129,20 @@ class Cargos extends MY_Controller {
     *
     */
     public function excluir( $key ) {
+
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canDelete' ] ) ) return;
+
+        // pega o grupo
         $grupo = $this->GruposFinder->getGrupo();
+
+        // carrega o grupo
         $grupo->setGid( $key );
+
+        // exclui o grupo
         $grupo->delete();
 
+        // carrega a index
         $this->index();
     }
 
@@ -132,26 +154,32 @@ class Cargos extends MY_Controller {
     */
     public function salvar() {
 
+        // checa a permissao
+        if ( $this->input->post( 'cod' ) )
+            if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+        else
+            if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
+
         // instancia um novo objeto grupo
         $grupo = $this->GruposFinder->getGrupo();
-        $grupo->setGrupo( $this->input->post( 'cargo' ) );
+        $grupo->setGrupo( $this->input->post( 'grupo' ) );
         $grupo->setGid( $this->input->post( 'cod' ) );
 
         // verifica se o formulario é valido
-        if ( !$this->_formularioCargos() ) {
+        if ( !$this->_formularioGrupos() ) {
 
             // seta os erros de validacao            
-            $this->view->set( 'cargo', $grupo );
+            $this->view->set( 'grupo', $grupo );
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar cargo' )->render( 'forms/cargo' );
+            $this->view->setTitle( 'Conta Ágil - Adicionar grupo' )->render( 'forms/grupo' );
             return;
         }
 
         // verifica se o dado foi salvo
         if ( $grupo->save() ) {
-            redirect( site_url( 'cargos/index' ) );
+            redirect( site_url( 'grupos/index' ) );
         }
     }
 }

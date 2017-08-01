@@ -1,7 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php $finder = $view->item( 'finder' ); ?>
-
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php $view->component( 'aside' ); ?>
 <div id="wrapper" class="wrapper show">
     <?php $view->component( 'navbar' ); ?>
@@ -16,7 +14,7 @@
         <?php if ( $view->item( 'add_url' ) ): ?>
         <div class="row margin fade-in">
             <div class="col-md-12">
-                <a href="<?php echo $view->item( 'add_url' ); ?>" class="btn btn-success">Adicionar</a> 
+                <a href="<?php echo $view->item( 'add_url' ); ?>" class="btn btn-primary z-depth-2">Adicionar</a> 
             </div>
             <div class="col-md-12"><hr></div>
         </div>

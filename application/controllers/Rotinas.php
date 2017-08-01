@@ -5,6 +5,9 @@ class Rotinas extends MY_Controller {
     // indica se o controller é publico
 	protected $public = false;
 
+    // seta a rotina
+    protected $routine = 'Rotinas';
+
    /**
     * __construct
     *
@@ -51,8 +54,11 @@ class Rotinas extends MY_Controller {
     */
 	public function index() {
 
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return;
+
         // faz a paginacao
-		$this->RotinasFinder->grid()
+		$this->RotinasFinder->clean()->grid()
 
 		// seta os filtros
 		->order()
@@ -82,6 +88,9 @@ class Rotinas extends MY_Controller {
     */
     public function adicionar() {
 
+        // checa a permissao
+        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
+
         // carrega as classificacoes
         $class = $this->ClassificacoesFinder->get();
 
@@ -99,6 +108,9 @@ class Rotinas extends MY_Controller {
     *
     */
     public function alterar( $key ) {
+
+        // checa a permissao
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
 
         // carrega as classificacoes
         $class = $this->ClassificacoesFinder->get();
@@ -129,9 +141,20 @@ class Rotinas extends MY_Controller {
     *
     */
     public function excluir( $key ) {
+
+        // checa a permissao
+        if ( !$this->checkAccess( [ 'canDelete' ] ) ) return;
+
+        // carrega a instancia
         $rotina = $this->RotinasFinder->getRotina();
+
+        // seta a rotina
         $rotina->setRid( $key );
+
+        // exclui
         $rotina->delete();
+
+        // carrega a pagina 
         $this->index();
     }
 
@@ -142,6 +165,12 @@ class Rotinas extends MY_Controller {
     *
     */
     public function salvar() {
+
+        // checa a permissao
+        if ( $this->input->post( 'cod' ) )
+            if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+        else
+            if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // instancia um novo objeto grupo
         $grupo = $this->RotinasFinder->getRotina();

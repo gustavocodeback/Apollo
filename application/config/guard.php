@@ -45,7 +45,7 @@ $config['users'] = [
 ];
 
 /**
-* users
+* groups
 *
 * configuracoes para criacao da tabela de usuarios
 *
@@ -67,7 +67,7 @@ $config['groups'] = [
 ];
 
 /**
-* users
+* routines
 *
 * configuracoes para criacao da tabela de usuarios
 *
@@ -98,7 +98,7 @@ $config['routines'] = [
 ];
 
 /**
-* users
+* permissions
 *
 * configuracoes para criacao da tabela de usuarios
 *
@@ -113,14 +113,30 @@ $config['permissions'] = [
                 'primary_key'    => TRUE
         ],
         'gid' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
+                'type'       => 'INT',
+                'constraint' => 11,
         ],
         'rid' => [
-                'type'           => 'INT',
-                'constraint'     => 11,
+                'type'       => 'INT',
+                'constraint' => 11,
         ],
         'access' => [
+                'type'       =>'CHAR',
+                'constraint' => '1'
+        ],
+        'create' => [
+                'type'       =>'CHAR',
+                'constraint' => '1'
+        ],
+        'read' => [
+                'type'       =>'CHAR',
+                'constraint' => '1'
+        ],
+        'update' => [
+                'type'       =>'CHAR',
+                'constraint' => '1'
+        ],
+        'delete' => [
                 'type'       =>'CHAR',
                 'constraint' => '1'
         ]

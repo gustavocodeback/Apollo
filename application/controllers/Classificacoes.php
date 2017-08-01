@@ -5,6 +5,9 @@ class Classificacoes extends MY_Controller {
     // indica se o controller é publico
 	protected $public = false;
 
+    // seta a rotina
+    protected $routine = 'Classificaçōes';
+
    /**
     * __construct
     *
@@ -59,6 +62,9 @@ class Classificacoes extends MY_Controller {
     */
 	public function index() {
 
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return;
+
         // faz a paginacao
 		$this->ClassificacoesFinder->grid()
 
@@ -93,6 +99,9 @@ class Classificacoes extends MY_Controller {
     */
     public function adicionar() {
 
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
+
         // carrega a view de adicionar
         $this->view->setTitle( 'Conta Ágil - Adicionar classificacao' )->render( 'forms/classificacao' );
     }
@@ -104,6 +113,9 @@ class Classificacoes extends MY_Controller {
     *
     */
     public function alterar( $key ) {
+
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
 
         // carrega o classificacao
         $classificacao = $this->ClassificacoesFinder->key( $key )->get( true );
@@ -128,10 +140,20 @@ class Classificacoes extends MY_Controller {
     *
     */
     public function excluir( $key ) {
+
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canDelete' ] ) ) return;
+
+        // pega o item
         $classificacao = $this->ClassificacoesFinder->getClassificacao();
+
+        // carrega pego codigo
         $classificacao->setCod( $key );
+
+        // deleta o item
         $classificacao->delete();
 
+        // carrega a index
         $this->index();
     }
 
@@ -142,6 +164,12 @@ class Classificacoes extends MY_Controller {
     *
     */
     public function salvar() {
+
+        // checa a permissao
+        if ( $this->input->post( 'cod' ) )
+            if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+        else
+            if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // instancia um novo objeto classificacao
         $classificacao = $this->ClassificacoesFinder->getClassificacao();

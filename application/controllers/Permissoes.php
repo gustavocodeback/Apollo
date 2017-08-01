@@ -5,6 +5,9 @@ class Permissoes extends MY_Controller {
     // indica se o controller é publico
 	protected $public = false;
 
+    // indica a rotina
+    protected $routine = 'Permissões';
+
    /**
     * __construct
     *
@@ -21,13 +24,20 @@ class Permissoes extends MY_Controller {
         $this->view->module( 'navbar' )->module( 'aside' );
     }
 
-    private function _salvarPermissao( $rid, $gid ) {
+   /**
+    * _salvarPermissao
+    *
+    * salva a permissao
+    *
+    */
+    private function _salvarPermissao( $rid, $gid, $tipo ) {
 
         // prepara os dados
         $dados = [
             'rid'    => $rid,
             'gid'    => $gid,
-            'access' => 'S'
+            'access' => 'S',
+            $tipo    => 'S'
         ];
 
         // salva no banco
@@ -41,6 +51,9 @@ class Permissoes extends MY_Controller {
     *
     */
 	public function index() {
+
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return;
 
         // pega os cargos e as rotinas
         $cargos  = $this->GruposFinder->get();
@@ -72,11 +85,20 @@ class Permissoes extends MY_Controller {
     */
     public function salvar() {
 
+        // verifica o acesso
+        if ( !$this->checkAccess( [ 'canCreate', 'canUpdate' ] ) ) return;
+
         // pega os checkbox
         $check = $this->input->post( 'permissoes' );
         
         // deleta as permissoes atuais
         $this->deleteAll();
+
+        // seta os tipos possiveis
+        $tipos = [  'c' => 'create',
+                    'r' => 'read',
+                    'u' => 'update',
+                    'd' => 'delete' ];
 
         // percorre todas as permissoes
         foreach( $check as $item ) {
@@ -84,8 +106,11 @@ class Permissoes extends MY_Controller {
             // faz o explode
             $parts = explode( '_', $item );
 
+            // pega o tipo
+            $tipo = $tipos[$parts[0]];
+
             // salva a permissao
-            $this->_salvarPermissao( $parts[0], $parts[1] );
+            $this->_salvarPermissao( $parts[1], $parts[2], $tipo );
         }
 
         // mostra o index

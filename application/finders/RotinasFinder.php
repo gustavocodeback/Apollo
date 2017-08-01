@@ -40,7 +40,7 @@ class RotinasFinder extends MY_Model {
         return new $this->entity();
     }
 
-    /**
+   /**
     * grid
     *
     * funcao usada para gerar o grid
@@ -50,6 +50,17 @@ class RotinasFinder extends MY_Model {
         $this->db->from( $this->table.' r' )
         ->select( 'r.rid as Código, rotina, c.Nome, link, rid as Ações' )
        ->join( 'Classificacoes c', 'r.CodClassificacao = c.CodClassificacao' );
+        return $this;
+    }
+
+   /**
+    * nome
+    *
+    * faz o filtro pelo nome
+    *
+    */
+    public function nome( $nome ) {
+        $this->where( " rotina = '$nome' " );
         return $this;
     }
 }

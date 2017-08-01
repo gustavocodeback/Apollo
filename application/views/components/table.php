@@ -1,6 +1,6 @@
 <?php if ( $view->getHeader( 'grid' ) ): ?>
 <?php $finder = $view->item( 'finder' ); ?>
-<table class="table table-bordered">
+<table class="table table-bordered z-depth-2" style="background: white">
     <thead>
         <tr>
             <?php foreach( $view->getHeader( 'grid' ) as $row ): ?>

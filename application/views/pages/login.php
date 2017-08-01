@@ -1,22 +1,23 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="container-fluid">
     <div class="row">
-        <div class="left-panel col-md-6">
-            <div class="row">
+        <div class="left-panel col-md-6 col-md-offset-3">
+            <div class="row" style="padding-top: 80px;">
                 <?php echo form_open( 'login/logar', [ 'id'=> 'login-form', 'class' => 'col-md-9 col-md-offset-1 fade-in' ] )?>
                     <div class="page-header fade-in">
-                        <h3>Bem-vindo, contador</h3>
+                        <h3>Bem-vindo, funcionário</h3>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email</label>
+                        <label for="emailInput">Email</label>
                         <input  type="email" 
                                 class="form-control" 
                                 name="email"
                                 required
-                                placeholder="joao@contador.com.br">
+                                placeholder="carlos@funcionario.com.br">
                     </div>
+                    
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Senha</label>
+                        <label for="emailInput">Senha</label>
                         <input  type="password" 
                                 class="form-control" 
                                 name="senha"
@@ -25,6 +26,7 @@
                                 maxlenth="16"
                                 placeholder="******">
                     </div>
+
                     <?php if ( $view->item( 'error' ) ): ?>
                     <div class="alert alert-danger">
                         <b>Erro ao logar</b>
@@ -47,6 +49,5 @@
                 <?php echo form_close(); ?>                
             </div>
         </div>
-        <div class="right-panel col-md-6 hidden-xs"></div>
     </div>
 </div>

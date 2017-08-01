@@ -13,7 +13,7 @@
 }
 
 body {
-    background: #f1f1f1;
+    background: #F7FAFF;
 }
 #wrapper {
     height: 100vh;
@@ -21,8 +21,10 @@ body {
     left: 250px;
     position: absolute;
     top: 0px;
+    padding-bottom: 100px;
     overflow-y: scroll;
     overflow-x: hidden;
+    background: #F7FAFF;    
 }
 
 .container {
@@ -30,6 +32,11 @@ body {
 }
 .margin {
   margin: 5px;
+}
+
+.btn-primary {
+  background: #4EA59D !important;
+  border-color: #4EA59D !important;
 }
 
 @media 

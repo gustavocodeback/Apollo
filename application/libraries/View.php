@@ -291,6 +291,86 @@ class View {
         return $busca->num_rows() > 0 ? true : false;
     }
 
+    /**
+    * canCreate
+    *
+    * verifica se um usuario tem acesso a uma rotina
+    *
+    */
+    public function canCreate( $rid, $gid ) {
+
+        // prepara a busca
+        $this->ci->db->from( 'Permissoes' )
+        ->select( '*' )
+        ->where( " rid = $rid AND gid = $gid AND create = 'S' " );
+
+        // faz a busca
+        $busca = $this->ci->db->get();
+
+        // volta o resultado
+        return $busca->num_rows() > 0 ? true : false;
+    }
+
+   /**
+    * hasAccess
+    *
+    * verifica se um usuario tem acesso a uma rotina
+    *
+    */
+    public function canRead( $rid, $gid ) {
+        
+        // prepara a busca
+        $this->ci->db->from( 'Permissoes' )
+        ->select( '*' )
+        ->where( " rid = $rid AND gid = $gid AND read = 'S' " );
+
+        // faz a busca
+        $busca = $this->ci->db->get();
+
+        // volta o resultado
+        return $busca->num_rows() > 0 ? true : false;
+    }
+
+   /**
+    * hasAccess
+    *
+    * verifica se um usuario tem acesso a uma rotina
+    *
+    */
+    public function canUpdate( $rid, $gid ) {
+
+        // prepara a busca
+        $this->ci->db->from( 'Permissoes' )
+        ->select( '*' )
+        ->where( " rid = $rid AND gid = $gid AND update = 'S' " );
+
+        // faz a busca
+        $busca = $this->ci->db->get();
+
+        // volta o resultado
+        return $busca->num_rows() > 0 ? true : false;
+    }
+
+   /**
+    * hasAccess
+    *
+    * verifica se um usuario tem acesso a uma rotina
+    *
+    */
+    public function canDelete( $rid, $gid ) {
+
+        // prepara a busca
+        $this->ci->db->from( 'Permissoes' )
+        ->select( '*' )
+        ->where( " rid = $rid AND gid = $gid AND delete = 'S' " );
+
+        // faz a busca
+        $busca = $this->ci->db->get();
+
+        // volta o resultado
+        return $busca->num_rows() > 0 ? true : false;
+    }
+
   /**
     * obterRotinasClassificacao
     *
