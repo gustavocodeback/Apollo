@@ -59,7 +59,7 @@ class Estados extends MY_Controller {
 	public function index() {
 
         // verifica a permissao
-        if ( !$this->checkAccess( [ 'canRead' ] ) ) return
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return;
 
         // faz a paginacao
 		$this->EstadosFinder->grid()
@@ -95,7 +95,7 @@ class Estados extends MY_Controller {
     public function adicionar() {
 
         // verifica a permissao
-        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return
+        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // carrega a view de adicionar
         $this->view->setTitle( 'Conta Ágil - Adicionar estado' )->render( 'forms/estado' );
@@ -110,7 +110,7 @@ class Estados extends MY_Controller {
     public function alterar( $key ) {
 
         // verifica a permissao
-        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
 
         // carrega o cargo
         $estado = $this->EstadosFinder->key( $key )->get( true );

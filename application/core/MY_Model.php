@@ -51,6 +51,33 @@ class MY_Model extends CI_Model {
     }
 
    /**
+    * registerLog
+    *
+    * registra o log
+    *
+    */
+    protected function registerLog( $action, $id ) {
+
+        // carrega o usuário logado
+        $email = $this->guard->currentUser()->data['email'];
+
+        // seta a mensagem
+        $msg = "O usuário $email $action um(a) $this->entity : código $id";
+
+        // prepara os dados
+        $dados = [
+            'uid'      => $this->guard->currentUser()->data['uid'],
+            'Entidade' => $this->entity,
+            'Acao'     => $action,
+            'Data'     => date( 'Y-m-d H:i:s', time() ),
+            'Mensagem' => $msg
+        ];
+
+        // salva no banco
+        $this->db->insert( 'Logs', $dados );
+    }
+
+   /**
     * where
     *
     * define os filtros para uma busca
@@ -237,11 +264,26 @@ class MY_Model extends CI_Model {
 
             // faz o update
             $this->db->where( $this->primaryKey, $this->$pk );
-            return $this->db->update( $this->table, $this->serial ); 
+            if ( $this->db->update( $this->table, $this->serial ) ) {
+
+                // registra o log
+                $this->registerLog( 'alterou', $this->$pk );
+
+            } else return false;
         } else {
             
             // faz o insert
-            return $this->db->insert( $this->table, $this->serial );            
+            if ( $this->db->insert( $this->table, $this->serial ) ) {
+
+                // seta o id
+                $this->$pk = $this->db->insert_id();
+
+                // registra o log
+                $this->registerLog( 'criou', $this->$pk );
+
+                // volta true por padrao
+                return true;    
+            } else return false;             
         }
     }
 
@@ -283,7 +325,11 @@ class MY_Model extends CI_Model {
         if ( !$this->$pk ) return;
 
         // faz a exclusao
-        return $this->db->delete( $this->table, [ $pk => $this->$pk ] ); 
+        if ( $this->db->delete( $this->table, [ $pk => $this->$pk ] ) ) {
+            
+            // registra o log
+            $this->registerLog( 'deletou', $this->$pk );
+        } else return false;
     }
 
    /**
@@ -412,7 +458,8 @@ class MY_Model extends CI_Model {
         $this->url = $url ? $url : '';
 
         // seta os dados da view
-        $this->view->set( 'grid', $this->cache )->set( 'finder', $this );
+        $this->view->set( 'grid', $this->cache );
+        $this->view->set( 'finder', $this );
 
         // retorna a instancia
         return $this;

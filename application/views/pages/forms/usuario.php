@@ -7,7 +7,7 @@
     <?php echo form_open( 'usuarios/salvar', [ 'class' => 'card container fade-in' ] )?>
         <?php $view->component( 'breadcrumb' ); ?>        
         <div class="page-header">
-            <h2>Nova usuario</h2>
+            <h2>Novo usuário</h2>
         </div>
         <?php if( $usuario ): ?>
         <input type="hidden" name="cod" value="<?php echo $usuario->uid; ?>">

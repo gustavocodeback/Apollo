@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cidades extends MY_Controller {
+class Produtos extends MY_Controller {
 
     // indica se o controller é publico
 	protected $public = false;
 
     // rotina
-    protected $routine = 'Cidades';
+    protected $routine = 'Produtos';
 
    /**
     * __construct
@@ -18,19 +18,19 @@ class Cidades extends MY_Controller {
         parent::__construct();
         
         // carrega o finder
-        $this->load->finder( [ 'CidadesFinder', 'EstadosFinder' ] );
+        $this->load->finder( [ 'ProdutosFinder' ] );
         
         // chama o modulo
         $this->view->module( 'navbar' )->module( 'aside' );
     }
 
    /**
-    * _formularioEstados
+    * _formularioProduto
     *
-    * valida o formulario de estados
+    * valida o formulario de produtos
     *
     */
-    private function _formularioCidade() {
+    private function _formularioProduto() {
 
         // seta as regras
         $rules = [
@@ -38,10 +38,6 @@ class Cidades extends MY_Controller {
                 'field' => 'nome',
                 'label' => 'Nome',
                 'rules' => 'required|min_length[3]|max_length[32]|trim'
-            ],[
-                'field' => 'estado',
-                'label' => 'Estado',
-                'rules' => 'required|min_length[1]|max_length[2]|trim'
             ]
         ];
 
@@ -62,7 +58,7 @@ class Cidades extends MY_Controller {
         if ( !$this->checkAccess( [ 'canRead' ] ) ) return;
 
         // faz a paginacao
-		$this->CidadesFinder->grid()
+		$this->ProdutosFinder->grid()
 
 		// seta os filtros
         ->addFilter( 'nome', 'text' )
@@ -72,18 +68,18 @@ class Cidades extends MY_Controller {
 
 		// seta as funcoes nas colunas
 		->onApply( 'Ações', function( $row, $key ) {
-			echo '<a href="'.site_url( 'cidades/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
-			echo '<a href="'.site_url( 'cidades/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
+			echo '<a href="'.site_url( 'produtos/alterar/'.$row['Código'] ).'" class="margin btn btn-xs btn-info"><span class="glyphicon glyphicon-pencil"></span></a>';
+			echo '<a href="'.site_url( 'produtos/excluir/'.$row['Código'] ).'" class="margin btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></a>';            
 		})
 
 		// renderiza o grid
-		->render( site_url( 'cidades/index' ) );
+		->render( site_url( 'produtos/index' ) );
 		
         // seta a url para adiciona
-        $this->view->set( 'add_url', site_url( 'cidades/adicionar' ) );
+        $this->view->set( 'add_url', site_url( 'produtos/adicionar' ) );
 
 		// seta o titulo da pagina
-		$this->view->setTitle( 'Cidades - listagem' )->render( 'grid' );
+		$this->view->setTitle( 'Produtos - listagem' )->render( 'grid' );
     }
 
    /**
@@ -97,12 +93,8 @@ class Cidades extends MY_Controller {
         // verifica a permissao
         if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
-        // carrega os estados
-        $estados = $this->EstadosFinder->get();
-        $this->view->set( 'estados', $estados );
-
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Adicionar cidade' )->render( 'forms/cidade' );
+        $this->view->setTitle( 'Apresente.se - Adicionar produto' )->render( 'forms/produto' );
     }
 
    /**
@@ -116,24 +108,20 @@ class Cidades extends MY_Controller {
         // verifica a permissao
         if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
 
-        // carrega os estados
-        $estados = $this->EstadosFinder->get();
-        $this->view->set( 'estados', $estados );
-
         // carrega o cargo
-        $cidade = $this->CidadesFinder->key( $key )->get( true );
+        $produto = $this->ProdutosFinder->key( $key )->get( true );
 
         // verifica se o mesmo existe
-        if ( !$cidade ) {
+        if ( !$produto ) {
             redirect( 'estados/index' );
             exit();
         }
 
         // salva na view
-        $this->view->set( 'cidade', $cidade );
+        $this->view->set( 'produto', $produto );
 
         // carrega a view de adicionar
-        $this->view->setTitle( 'Conta Ágil - Alterar cidade' )->render( 'forms/cidade' );
+        $this->view->setTitle( 'Apresente.se - Alterar produto' )->render( 'forms/produto' );
     }
 
    /**
@@ -148,13 +136,13 @@ class Cidades extends MY_Controller {
         if ( !$this->checkAccess( [ 'canDelete' ] ) ) return
 
         // seta as cidades
-        $grupo = $this->CidadesFinder->getCidade();
+        $produto = $this->ProdutosFinder->getCidade();
 
         // carrega pelo codigo
-        $grupo->setCod( $key );
+        $produto->setCod( $key );
 
         // deleta
-        $grupo->delete();
+        $produto->delete();
 
         // carrega a index
         $this->index();
@@ -175,26 +163,34 @@ class Cidades extends MY_Controller {
             if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // instancia um novo objeto grupo
-        $cidade = $this->CidadesFinder->getCidade();
-        $cidade->setNome( $this->input->post( 'nome' ) );
-        $cidade->setEstado( $this->input->post( 'estado' ) );
-        $cidade->setCod( $this->input->post( 'cod' ) );
+        $produto = $this->ProdutosFinder->getProduto();
+        $produto->setNome( $this->input->post( 'nome' ) );
+        $produto->setCod( $this->input->post( 'cod' ) );
 
         // verifica se o formulario é valido
-        if ( !$this->_formularioCidade() ) {
+        if ( !$this->_formularioProduto() ) {
 
             // seta os erros de validacao            
-            $this->view->set( 'cidade', $cidade );
+            $this->view->set( 'produto', $produto );
             $this->view->set( 'errors', validation_errors() );
             
             // carrega a view de adicionar
-            $this->view->setTitle( 'Conta Ágil - Adicionar cidade' )->render( 'forms/cidade' );
+            $this->view->setTitle( 'Apresente.se - Salvar produto' )->render( 'forms/produto' );
             return;
         }
 
         // verifica se o dado foi salvo
-        if ( $cidade->save() ) {
-            redirect( site_url( 'cidades/index' ) );
+        if ( $produto->save() ) {
+            redirect( site_url( 'produtos' ) );
+        } else {
+
+            // seta os erros de validacao            
+            $this->view->set( 'produto', $produto );
+            $this->view->set( 'errors', 'Erro ao salvar o produto' );
+            
+            // carrega a view de adicionar
+            $this->view->setTitle( 'Apresente.se - Salvar produto' )->render( 'forms/produto' );
+            return;
         }
     }
 }

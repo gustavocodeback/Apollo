@@ -1,21 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-require 'application/models/Grupo.php';
-
-class GruposFinder extends MY_Model {
+class LogsFinder extends MY_Model {
 
     // entidade
-    public $entity = 'Grupo';
+    public $entity = 'Logs';
 
     // tabela
-    public $table = 'Grupos';
+    public $table = 'Logs';
 
     // chave primaria
-    public $primaryKey = 'gid';
+    public $primaryKey = 'CodLog';
 
     // labels
     public $labels = [
-        'grupo'   => 'Grupo',
+        'Data' => 'Data'
     ];
 
    /**
@@ -29,24 +27,14 @@ class GruposFinder extends MY_Model {
     }
 
    /**
-    * getGrupo
-    *
-    * pega a instancia do grupo
-    *
-    */
-    public function getGrupo() {
-        return new $this->entity();
-    }
-
-    /**
     * grid
     *
     * funcao usada para gerar o grid
     *
     */
     public function grid() {
-        $this->db->from( $this->table )
-        ->select( 'gid as Código, grupo, gid as Ações' );
+        $this->db->from( $this->table.' c' )
+        ->select( 'CodLog as Código, c.uid, c.Entidade, c.Acao, c.Data, c.Mensagem, CodLog as Ações' );
         return $this;
     }
 }

@@ -58,4 +58,46 @@ $config['schema']['Classificacoes'] = [
     ]
 ];
 
+// Tabela de Produtos
+$config['schema']['Produtos'] = [
+    'CodProduto' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+        'primary_key'    => TRUE,
+        'auto_increment' => TRUE
+    ],
+    'Nome' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ]
+];
+
+// Tabela Logs
+$config['schema']['Logs'] = [
+    'CodLog' => [
+        'type'           => 'int',
+        'constraint'     => '11',
+        'primary_key'    => TRUE,
+        'auto_increment' => true
+    ],
+    'uid' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
+    'Entidade' => [
+        'type'       => 'varchar',
+        'constraint' => '100'
+    ],
+    'Acao' => [
+        'type'       => 'varchar',
+        'constraint' => '100',
+    ],
+    'Data' => [
+        'type' => 'date'
+    ],
+    'Mensagem' => [
+        'type' => 'text'
+    ]
+];
+
 /* end of file */
