@@ -57,7 +57,7 @@ class Permissoes extends MY_Controller {
 
         // pega os cargos e as rotinas
         $cargos  = $this->GruposFinder->get();
-        $rotinas = $this->RotinasFinder->get(); 
+        $rotinas = $this->RotinasFinder->clean()->get(); 
 
         // seta os dados
         $this->view->set( 'cargos', $cargos );

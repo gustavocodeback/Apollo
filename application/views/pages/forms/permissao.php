@@ -70,5 +70,7 @@
                 <button class="btn btn-danger">Cancelar</button>
             </div>
         </div>
-    <?php echo form_close(); ?> 
+    <?php echo form_close(); ?>
+
+    <?php $view->component( 'footer' ); ?>
 </div>

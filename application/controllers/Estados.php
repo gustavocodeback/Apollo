@@ -5,6 +5,9 @@ class Estados extends MY_Controller {
     // indica se o controller é publico
 	protected $public = false;
 
+    // seta a rotina
+    protected $routine = 'Estados';
+
    /**
     * __construct
     *
@@ -55,6 +58,9 @@ class Estados extends MY_Controller {
     */
 	public function index() {
 
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return
+
         // faz a paginacao
 		$this->EstadosFinder->grid()
 
@@ -88,6 +94,9 @@ class Estados extends MY_Controller {
     */
     public function adicionar() {
 
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return
+
         // carrega a view de adicionar
         $this->view->setTitle( 'Conta Ágil - Adicionar estado' )->render( 'forms/estado' );
     }
@@ -99,6 +108,9 @@ class Estados extends MY_Controller {
     *
     */
     public function alterar( $key ) {
+
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return
 
         // carrega o cargo
         $estado = $this->EstadosFinder->key( $key )->get( true );
@@ -123,9 +135,20 @@ class Estados extends MY_Controller {
     *
     */
     public function excluir( $key ) {
+
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canDelete' ] ) ) return;
+
+        // seta o grupo
         $grupo = $this->EstadosFinder->getEstado();
+
+        // seta a chave
         $grupo->setCod( $key );
+
+        // seta o delete
         $grupo->delete();
+
+        // carrega o index
         $this->index();
     }
 
@@ -136,6 +159,12 @@ class Estados extends MY_Controller {
     *
     */
     public function salvar() {
+
+        // checa a permissao
+        if ( $this->input->post( 'cod' ) )
+            if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+        else
+            if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // instancia um novo objeto grupo
         $estado = $this->EstadosFinder->getEstado();

@@ -61,10 +61,15 @@ class Usuarios extends MY_Controller {
     */
 	public function index() {
 
+        // checa a permissao
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return;
+
         // faz a paginacao
 		$this->UsuariosFinder->grid()
 
 		// seta os filtros
+        ->addFilter( 'email', 'text' )
+        ->filter()
 		->order()
 		->paginate( 0, 20 )
 
@@ -113,6 +118,9 @@ class Usuarios extends MY_Controller {
     */
     public function alterar( $key ) {
 
+        // checa a permissao
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+
         // carrega as classificacoes
         $grupos = $this->GruposFinder->get();
 
@@ -142,9 +150,20 @@ class Usuarios extends MY_Controller {
     *
     */
     public function excluir( $key ) {
+
+        // verifica a permisso
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+
+        // pega o usuario
         $usuario = $this->UsuariosFinder->getUsuario();
+
+        // carrega pelo codigo
         $usuario->setCod( $key );
+
+        // exclui da tabela
         $usuario->delete();
+
+        // carrega a index
         $this->index();
     }
 
@@ -155,6 +174,12 @@ class Usuarios extends MY_Controller {
     *
     */
     public function salvar() {
+
+        // checa a permissao
+        if ( $this->input->post( 'cod' ) )
+            if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+        else
+            if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // pega os dados
         $grupos = $this->GruposFinder->get();

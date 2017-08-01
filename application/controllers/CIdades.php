@@ -5,6 +5,9 @@ class Cidades extends MY_Controller {
     // indica se o controller é publico
 	protected $public = false;
 
+    // rotina
+    protected $routine = 'Cidades';
+
    /**
     * __construct
     *
@@ -55,6 +58,9 @@ class Cidades extends MY_Controller {
     */
 	public function index() {
 
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canRead' ] ) ) return
+
         // faz a paginacao
 		$this->CidadesFinder->grid()
 
@@ -88,6 +94,9 @@ class Cidades extends MY_Controller {
     */
     public function adicionar() {
 
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canCreate' ] ) ) return
+
         // carrega os estados
         $estados = $this->EstadosFinder->get();
         $this->view->set( 'estados', $estados );
@@ -103,6 +112,9 @@ class Cidades extends MY_Controller {
     *
     */
     public function alterar( $key ) {
+
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return
 
         // carrega os estados
         $estados = $this->EstadosFinder->get();
@@ -131,9 +143,20 @@ class Cidades extends MY_Controller {
     *
     */
     public function excluir( $key ) {
+
+        // verifica a permissao
+        if ( !$this->checkAccess( [ 'canDelete' ] ) ) return
+
+        // seta as cidades
         $grupo = $this->CidadesFinder->getCidade();
+
+        // carrega pelo codigo
         $grupo->setCod( $key );
+
+        // deleta
         $grupo->delete();
+
+        // carrega a index
         $this->index();
     }
 
@@ -144,6 +167,12 @@ class Cidades extends MY_Controller {
     *
     */
     public function salvar() {
+
+        // checa a permissao
+        if ( $this->input->post( 'cod' ) )
+            if ( !$this->checkAccess( [ 'canUpdate' ] ) ) return;
+        else
+            if ( !$this->checkAccess( [ 'canCreate' ] ) ) return;
 
         // instancia um novo objeto grupo
         $cidade = $this->CidadesFinder->getCidade();

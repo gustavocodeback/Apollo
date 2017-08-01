@@ -57,5 +57,7 @@
         <hr>
         <button class="btn btn-primary">Salvar</button>
         <a href="<?php echo site_url( 'cidades' ); ?>" class="btn btn-danger">Cancelar</a>
-    <?php echo form_close(); ?> 
+    <?php echo form_close(); ?>
+
+    <?php $view->component( 'footer' ); ?>
 </div>

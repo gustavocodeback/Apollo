@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php $finder = $view->item( 'finder' ); ?>
 <?php if ( $finder->filters ): ?>
-<form id="filter-form" method="get" class="well" style="background: white">
+<form id="filter-form" method="get" class="well z-depth-1" style="background: white">
 
     <h4>Filtros</h4>
     <hr>

@@ -25,7 +25,9 @@
                 <?php $view->component( 'table' ); ?>            
             </div>
         </div>  
-    </div>   
+    </div>  
+
+    <?php $view->component( 'footer' ); ?> 
 </div>
 
 <style>
